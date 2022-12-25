@@ -1,0 +1,60 @@
+#include <iostream> 
+using namespace std;
+
+
+void quickSort(int * pMass, int left, int right)
+{
+	int i = left, j = right;
+	int tmp;//temporary storage
+
+	int pivot = pMass[(left + right) / 2 + 1];// supporting element
+
+	/* partition */
+	do
+	{
+		while (pMass[i] < pivot)
+			i++;
+		while (pMass[j] > pivot)
+			j--;
+
+		if (i <= j)
+		{
+			tmp = pMass[i];
+			pMass[i] = pMass[j];
+			pMass[j] = tmp;
+			i++;
+			j--;
+		}
+	} while (i <= j);
+
+	/* recursion */
+	if (left < j)
+		quickSort(pMass, left, j);
+
+	if (i < right)
+		quickSort(pMass, i, right);
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int nRes;
+	int nInp;
+	cin >> nInp;
+
+	int * ps = new int[nInp];
+
+	for (int i = 0; i < nInp; ++i)
+		cin >> ps[i];
+
+
+	quickSort(ps, 0, nInp - 1);
+
+	for (int i = 0; i < nInp; ++i)
+		cout << ps[i] << " ";
+
+	delete[] ps;
+
+	return 0;
+}

@@ -1,0 +1,68 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+using namespace std;
+
+long double FunctionScheta(long double a, long double b, long double c, long double d, long double x)
+{
+	long double v = a*(x*x*x) + b*(x*x) + c*x + d;
+	return v;
+}
+
+//1* 1.00408220*1.00408220*1.00408220 - 3* 1.00408220*1.00408220 + 3 * 1.00408220 - 1 = 1.012296661097757
+
+
+long double BiPoisk(int a, int b, int c, int d)
+{
+
+	long double fLeft = -5000000000; // left front
+	long double fRight = 5000000001; // right front
+	long double mid=0.0;
+
+	bool ubiv = true;
+
+	if (FunctionScheta(a, b, c, d, fLeft) < FunctionScheta(a, b, c, d, fRight)) 
+		ubiv = false;
+		
+	while (abs(fRight - fLeft) > 1e-10)//binarniy searc  
+	{
+		mid = (fLeft + fRight) / 2; // mid index l to r
+
+		long double fRes = FunctionScheta(a, b, c, d, mid);
+
+		//if (abs(fRes - 0.0) < 1e-50)
+		if (fRes == 0.0)
+		{
+			return mid;
+		}
+		if (ubiv == true)
+		{
+			if (fRes > 0) fLeft = mid;
+			else fRight = mid;
+
+		}
+		else
+		{
+			if (fRes > 0) fRight = mid;
+			else fLeft = mid;
+		}
+	}
+	return mid;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int a, b, c, d ;
+	cin >> a >> b >> c >> d;
+
+	cout.setf(ios::fixed);  // ????? ? ????????????? ??????? 
+	cout.precision(6);
+
+
+	long double x = BiPoisk( a, b, c, d);
+		cout << x;
+
+	return 0;
+}

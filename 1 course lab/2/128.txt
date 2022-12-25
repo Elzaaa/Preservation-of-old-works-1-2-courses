@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	cout.flush();
+
+	int n, iMid, iNew;
+	cin >> n;
+
+	int iLeft = 0;
+	int iRight = n;
+
+	for(; iLeft < iRight - 1;)
+	{
+		iMid = (iLeft + iRight) / 2;
+		cout << "? " << iMid << endl;
+		cin >> iNew;
+		if (iNew == iMid - 1)
+		{
+			iLeft = iMid;
+		}
+		else
+		{
+			iRight = iMid;
+		}
+	}
+	cout << "! " << iRight-1 << endl;
+}

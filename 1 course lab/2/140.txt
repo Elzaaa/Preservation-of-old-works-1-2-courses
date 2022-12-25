@@ -1,0 +1,87 @@
+#include <iostream> 
+#include <string> 
+#include <stdio.h>
+using namespace std;
+
+bool IfStr1MensheStr2(string str1, string str2)
+{
+	bool bRes = false;
+
+	int nlen1 = str1.length();
+	int nlen2 = str2.length();
+
+	int  avl = (nlen2 > nlen1) ? nlen1 : nlen2;
+
+	for (int i = 0; i < avl; ++i)
+	{
+		if (str1[i] == str2[i])
+			continue;
+
+		if (str1[i] < str2[i])
+			return true;
+		else
+			return false;
+	}
+
+	bRes = (nlen1 < nlen2) ? true : false;
+
+	return bRes;
+}
+
+
+void quickSort(string * strTable, int left, int right) 
+{
+	int i = left, j = right;
+	string tmp;
+
+	string pivot = strTable[(left + right) / 2];
+
+	/* partition */
+	while (i <= j) 
+	{
+		while (IfStr1MensheStr2(strTable[i], pivot))//*/(strTable[i][0] < pivot[0])
+			i++;
+		while (IfStr1MensheStr2(pivot, strTable[j]))//*/(strTable[j][0] > pivot[0])
+			j--;
+
+		if (i <= j) 
+		{
+			tmp = strTable[i];
+			strTable[i] = strTable[j];
+			strTable[j] = tmp;
+			i++;
+			j--;
+		}
+	}
+
+	/* recursion */
+	if (left < j)
+		quickSort(strTable, left, j);
+
+	if (i < right)
+		quickSort(strTable, i, right);
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int nRes;
+	int nInp;
+	cin >> nInp;
+
+	string * ps = new string[nInp];
+
+	for (int i = 0; i < nInp; ++i)
+		cin >> ps[i];
+
+
+	quickSort(ps, 0, nInp - 1);
+
+	for (int i = 0; i < nInp; ++i)
+		cout << ps[i]<<" ";
+
+	delete[] ps;
+
+	return 0;
+}

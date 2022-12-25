@@ -1,0 +1,102 @@
+#include <iostream>
+using namespace std;
+
+struct criter {
+int S; //score
+int T; //time
+int N; //number
+};
+
+criter teams[100000], M[100000];
+
+void merge_sort(criter* teams, int left, int right, int mid, int n)
+{
+int b = left, e = mid + 1;
+
+for (int i = left; i <= right; i++)
+if (e > right)
+{
+M[i].S = teams[b].S;
+M[i].T = teams[b].T;
+M[i].N = teams[b].N;
+b++;
+}
+else if (b > mid)
+{
+M[i].S = teams[e].S;
+M[i].T = teams[e].T;
+M[i].N = teams[e].N;
+e++;
+}
+else if (teams[b].S < teams[e].S)
+{
+M[i].S = teams[e].S;
+M[i].T = teams[e].T;
+M[i].N = teams[e].N;
+e++;
+}
+else if (teams[b].S == teams[e].S && teams[b].T > teams[e].T)
+{
+M[i].S = teams[e].S;
+M[i].T = teams[e].T;
+M[i].N = teams[e].N;
+e++;
+}
+else if (teams[b].S == teams[e].S && teams[b].T == teams[e].T && b > e)
+{
+M[i].S = teams[e].S;
+M[i].T = teams[e].T;
+M[i].N = teams[e].N;
+e++;
+}
+else
+{
+M[i].S = teams[b].S;
+M[i].T = teams[b].T;
+M[i].N = teams[b].N;
+b++;
+}
+}
+
+void merge_rec(criter* teams, int n, int left, int right, criter* M)
+{
+int mid = (left + right) / 2;
+
+if (left < mid)
+merge_rec(teams, n, left, mid, M);
+if (mid + 1 < right)
+merge_rec(teams, n, mid + 1, right, M);
+
+merge_sort(teams, left, right, mid, n);
+
+for (int i = left; i <= right; i++)
+{
+teams[i].S = M[i].S;
+teams[i].T = M[i].T;
+teams[i].N = M[i].N;
+}
+}
+
+int main()
+{
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
+
+int n, left = 0;
+
+cin » n;
+int right = n - 1;
+
+for (int i = 0; i < n; i++)
+{
+cin » teams[i].S » teams[i].T;
+teams[i].N = i;
+}
+
+merge_rec(teams, n, left, right, M);
+
+for (int i = 0; i < n; i++)
+cout « teams[i].N + 1 « " ";
+
+return 0;
+}

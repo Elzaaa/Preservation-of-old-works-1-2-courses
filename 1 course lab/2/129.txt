@@ -1,0 +1,59 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+using namespace std;
+
+long double FunctionScheta(long double vp, long double vf, long double a, long double x)
+{
+	long double lp = sqrt(x*x + (1 - a)*(1 - a));
+	long double lf = sqrt(a*a + (1 - x)*(1 - x));
+
+	long double tp = lp / vp;
+	long double tf = lf / vf;
+
+	return tp+tf;
+}
+
+
+long double TerPoisk(long double vp, long double vf, long double a)
+{
+	//input dannie
+	long double ldLeft = 0; // left front
+	long double ldRight = 1; // right front
+	long double EPS= 1e-10;
+
+
+	// Find min functions with one extremum between l and r.
+
+
+	long double mid1, mid2;
+	while (ldRight - ldLeft > EPS)
+	{
+		mid1 = ldLeft + (ldRight - ldLeft) / 3;
+		mid2 = ldRight - (ldRight - ldLeft) / 3;
+		if (FunctionScheta(vp, vf, a, mid1) < FunctionScheta(vp, vf, a, mid2))
+			ldRight = mid2;
+		else
+	        ldLeft = mid1;
+	}
+	 return mid1;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long double vp, vf ;
+	long double a;
+	cin >> vp >> vf;
+	cin >> a;
+
+	cout.setf(ios::fixed);  // fixed format output
+	cout.precision(9);
+
+
+	long double x = TerPoisk(vp,vf,a);
+	cout << x;
+
+	return 0;
+}

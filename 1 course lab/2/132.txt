@@ -1,0 +1,75 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+using namespace std;
+
+int BiPoisk(int * mass, int iArraySize, int DesiredVariable)
+{
+
+	int l = 0; // left front
+	int r = iArraySize - 1; // right front
+	int mid;
+
+	while (l <= r)//binarniy searc  
+	{
+		mid = (l + r) / 2; // mid index l to r
+
+		if (mass[mid] == DesiredVariable)
+		{
+			return mid;
+		}
+
+		else if (mass[mid] >  DesiredVariable) r = mid - 1;
+
+		else  l = mid + 1;
+	}
+	return -1;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iArraySize;
+
+	cin >> iArraySize;
+
+	int * DynamicArr = new int[iArraySize];//create dinamic mass
+
+
+	for (int i = 0; i < iArraySize; ++i) //array elements
+	{
+		cin >> DynamicArr[i]; // read array elements
+	}
+	int iSkolkoRaz;
+	int nCnt;//shetchik
+	cin >> iSkolkoRaz;
+
+	for (int i = 0; i < iSkolkoRaz; ++i) //array elements
+	{
+		int iNum;
+		nCnt = 0;
+		cin >> iNum;//entered the number for proverka 
+		int  newPeremrnnaya;
+		int t;
+		int y;
+		int indx = BiPoisk(DynamicArr, iArraySize, iNum);
+		if (indx != -1)
+		{
+			newPeremrnnaya = DynamicArr[indx];
+			for (t = indx - 1; DynamicArr[t] == newPeremrnnaya; --t);
+		
+					cout << t + 2<<" ";
+
+					for (y = indx + 1; DynamicArr[y] == newPeremrnnaya; ++y);
+
+					cout << y <<" "<< endl;
+			
+		}
+
+		else cout << "Not found" << endl;
+	}
+
+	delete[] DynamicArr;
+	return 0;
+}

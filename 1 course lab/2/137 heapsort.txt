@@ -1,0 +1,60 @@
+#include <iostream> 
+using namespace std;
+
+void sift(int *A, int iStartNumSift, int iEndNumInCurrentPyramid)
+{
+/*
+j-is the current number of the sifted element,
+
+k-is the number of the left or larger son j.
+*/
+	int j = iStartNumSift, k = iStartNumSift * 2 + 1;	 // left son
+	while (k <= iEndNumInCurrentPyramid)
+	{
+		if (k<iEndNumInCurrentPyramid && A[k]<A[k + 1]) k++; // bigger son
+		if (A[j] < A[k])
+		{
+			swap(A[j], A[k]);//change in places (swap)
+			j = k;
+			k = k * 2 + 1;
+		}
+		else break;
+	}
+}
+
+void heap_sort(int *A, int nInp)
+{
+	int i, m;
+	// building a pyramid
+	for (i = nInp / 2; i >= 0; --i)
+		sift(A, i, nInp - 1);
+	// array sorting
+	for (m = nInp - 1; m >= 1; --m)
+	{
+		swap(A[0], A[m]);
+		sift(A, 0, m - 1);
+	}
+}
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int nInp;
+	cin >> nInp;
+
+	int * iMass = new int[nInp];
+
+	for (int i = 0; i < nInp; ++i)
+		cin >> iMass[i];
+
+	heap_sort(iMass, nInp);
+
+	for (int i = 0; i < nInp; ++i)
+		cout << iMass[i] << " ";
+
+	delete[] iMass;
+	return 0;
+}

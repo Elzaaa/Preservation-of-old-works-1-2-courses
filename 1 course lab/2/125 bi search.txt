@@ -1,0 +1,56 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int n;
+
+	cin >> n;
+
+	int *a = new int[n];//create dinamic mass
+	
+
+	for (int i = 0; i < n; ++i) //array elements
+	{
+		cin >> a[i]; // ????????? ???????? ???????
+	}
+
+
+	int iKey; //were is my keyyy? I will look for a key
+	int iSkolko_raz;
+
+	cin >> iSkolko_raz; //
+
+	for (int i = 0; i <  iSkolko_raz; ++i) //array elements
+	{
+
+		cin >> iKey; // our key
+
+		bool lightbulb = false;
+		int l = 0; // left front
+		int r = n-1; // right front
+		int mid;
+
+		while ((l <= r) && (lightbulb != true))//binarniy searc  
+		{
+			mid = (l + r) / 2; // mid index l to r
+
+			if (a[mid] == iKey) lightbulb = true;//check the key with the middle element
+			
+		    else if (a[mid] >  iKey) r = mid - 1; // check which part should be discarded
+
+			else  l = mid + 1;
+		}
+
+		if (lightbulb) cout << mid + 1 << endl;
+		else cout << -1 << endl;
+
+	}
+	
+	delete[] a;
+	return 0;
+}

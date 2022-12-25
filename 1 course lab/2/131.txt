@@ -1,0 +1,79 @@
+#include <iostream> 
+#include <string> 
+#include <stdio.h>
+using namespace std;
+
+int BiPoisk(string strToFind, string * strTable, int nNumElements)
+{
+	int nLeft = 0;
+	int nRight = nNumElements ;
+	int nlen2 = strToFind.length();
+
+	while (nLeft != nRight)
+	{
+		int nMid = (nLeft + nRight) / 2;
+
+		string strMid = strTable[nMid];
+
+		if (strMid == strToFind) return nMid + 1;
+
+		int nlen1 = strMid.length();
+	
+		int  avl = (nlen2 > nlen1) ? nlen1:nlen2;//compare for fewer characters aa and aaaaaa. 2 <5
+		bool bFlag = false;
+		for (int i = 0; i < avl; ++i)
+		{
+			if (strMid[i] == strToFind[i]) 
+				continue;
+
+			if (strMid[i] > strToFind[i]) 
+				nRight = nMid;
+			else 
+				nLeft = nMid;
+
+			bFlag = true;
+
+			break;
+		}
+
+		if (bFlag == false)//compare in length
+		{
+			if (nlen2< nlen1)
+				nRight = nMid;
+			else
+				nLeft = nMid;
+		}
+	}
+
+	return -1;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int nRes;
+	int nInp;
+	cin >> nInp;
+
+	string * ps = new string[nInp];
+
+	for (int i = 0; i < nInp; ++i)
+		cin >> ps[i];
+
+	int nOutLoop;
+	cin >> nOutLoop;
+
+	for (int nLoop = 0; nLoop < nOutLoop; ++nLoop)
+	{
+		string strElement;
+		cin >> strElement;
+
+	    nRes = BiPoisk(strElement,ps, nInp);
+		cout << nRes << endl;
+	}
+
+	delete[] ps;
+
+	return 0;
+}

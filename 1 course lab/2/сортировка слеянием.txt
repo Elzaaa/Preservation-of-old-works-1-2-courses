@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+int A[10000000], D[10000000];
+
+void merge_rec(int*A, int b, int e, int*D)
+{
+	int c = (b + e) / 2;
+
+	if (b < c) merge_rec(A, b, c, D);
+	if (c + 1 < e) merge_rec(A, c + 1, e, D);
+
+	int i = b, j = c + 1, k;
+
+	for (k = b; k <= e; k++)
+		if (j > e) D[k] = A[i++];
+		else if (i > c) D[k] = A[j++];
+		else if (A[i] <= A[j]) D[k] = A[i++];
+		else D[k] = A[j++];
+
+	for (int i = b; i <= e; i++)
+		A[i] = D[i];
+}
+
+void merge_sort(int *A, int n)
+{
+	merge_rec(A, 0, n - 1, D);
+
+	for (int i = 0; i < n; i++)
+		cout << A[i] << " ";
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int n;
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+		cin >> A[i];
+
+	merge_sort(A, n);
+
+	return 0;
+}

@@ -1,0 +1,65 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+using namespace std;
+
+long double FunctionScheta(long double vp, long double vf, long double a, long double x)
+{
+	long double lp = sqrt(x*x + (1 - a)*(1 - a));
+	long double lf = sqrt(a*a + (1 - x)*(1 - x));
+
+	long double tp = lp / vp;
+	long double tf = lf / vf;
+
+	return tp+tf;
+}
+
+
+long double TerPoisk(long double vp, long double vf, long double a)
+{
+
+	long double fLeft = 0; // left front
+	long double fRight = 1; // right front
+	long double mid;
+	long double min;
+
+	min = fLeft;
+
+	while (abs(fRight - fLeft) > 1e-300)//binarniy searc  
+	{
+		mid = (fLeft + fRight) / 2; // mid index l to r
+	
+		long double fRes = FunctionScheta(vp, vf, a, mid);
+		long double fRess = FunctionScheta(vp, vf, a, min);
+
+		long double fLeftRes = FunctionScheta(vp, vf, a, fLeft);
+		long double fRightRess = FunctionScheta(vp, vf, a, fRight);
+
+		if (fRes < fRess)min = mid;
+		
+		if (fLeftRes < fRightRess) fRight = mid;
+	    else fLeft = mid;
+        
+	}	
+
+	return min;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long double vp, vf ;
+	long double a;
+	cin >> vp >> vf;
+	cin >> a;
+
+	cout.setf(ios::fixed);  // ????? ? ????????????? ??????? 
+	cout.precision(9);
+
+
+	long double x = TerPoisk(vp,vf,a);
+	cout << x;
+
+	return 0;
+}

@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+void NoMaxSift(int* a, int iMax, int iMin)
+{
+	int iTemporary = iMax;
+	int iMaxNext = iMax * 2 + 1;
+	for (; iMaxNext <= iMin;)
+	{
+		if (iMaxNext < iMin && a[iMaxNext] < a[iMaxNext + 1])
+		{
+			iMaxNext++;
+		}
+		if (a[iTemporary] < a[iMaxNext])
+		{
+			swap(a[iTemporary], a[iMaxNext]);
+			iTemporary = iMaxNext;
+			iMaxNext = iMaxNext * 2 + 1;
+		}
+		else break;
+	}
+}
+
+void MaxSift(int* a, int iMax, int iMin)
+{
+	int iTemporary = iMax;
+	int iMaxNext = iMax * 2 + 1;
+	for (; iMaxNext <= iMin;)
+	{
+		if (iMaxNext < iMin && a[iMaxNext] > a[iMaxNext + 1])
+		{
+			iMaxNext++;
+		}
+		if (a[iTemporary] > a[iMaxNext])
+		{
+			swap(a[iTemporary], a[iMaxNext]);
+			iTemporary = iMaxNext;
+			iMaxNext = iMaxNext * 2 + 1;
+		}
+		else break;
+	}
+}
+void HeapSort(int* a, int iElement)
+{
+	for (int i = iElement / 2; i >= 0; --i)
+	{
+		MaxSift(a, i, iElement - 1);
+	}
+	for (int i = iElement - 1; i >= 1; --i)
+	{
+		swap(a[0], a[i]);
+		MaxSift(a, 0, i - 1);
+	}
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	ios_base::sync_with_stdio(false);//speed
+	cin.tie(NULL);
+	int iAmountElements, iElement, iEnd;
+	scanf("%d", &iAmountElements);
+	scanf("%d", &iElement);
+
+	int* mass = new int[iElement];
+	for (int i = 0; i < iElement; ++i)
+	{
+		scanf("%i", &mass[i]);
+	}
+	HeapSort(mass, iElement);
+	for (int i = iElement; i < iAmountElements; ++i)
+	{
+		scanf("%i", &iEnd);
+		if (iEnd < mass[0])
+		{
+			mass[0] = iEnd;
+			NoMaxSift(mass, 0, iElement - 1);
+		}
+	}
+
+	printf("%i", mass[0]);
+
+	delete[]mass;
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}

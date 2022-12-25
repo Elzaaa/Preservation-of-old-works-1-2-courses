@@ -1,0 +1,55 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+void Jump(int n, long long * SourceArray)
+{
+	long long* TmpArray = new long long[n];
+	
+	if (n < 3)
+	{
+	    cout << SourceArray[0];
+	}
+	else
+	{
+		TmpArray[0] = SourceArray[0];
+		TmpArray[1] = 0;
+		TmpArray[2] = SourceArray[0] + SourceArray[2];
+	for (int i = 3; i < n; i++)
+	{
+		if (i == 3)
+		{
+			TmpArray[i] = TmpArray[i - 3] + SourceArray[i];
+		}
+		else if (i == 4)
+		{
+			TmpArray[i] = TmpArray[i - 2] + SourceArray[i];
+		}
+		else
+		{
+			TmpArray[i] = max(TmpArray[i - 2] + SourceArray[i], TmpArray[i - 3] + SourceArray[i]);
+		}
+	}
+	     cout << TmpArray[n - 1];
+	}
+}
+int main() 
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	long long n;
+	cin >> n;
+	long long* SourceArray = new long long[n];
+
+	for (int i = 0; i < n; ++i)
+	{
+		cin >> SourceArray[i];
+	}
+		
+	Jump(n, SourceArray);
+	
+	delete[] SourceArray;
+
+	return 0;
+}

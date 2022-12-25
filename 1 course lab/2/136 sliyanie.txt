@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+void merge_rec(int*SourceArray, int iStartelement, int iLastelement, int*WorkingArray)// iStartelement&iLastelement give parameters set the boundaries of the current sort area
+{
+	
+
+	int iCentralElement /*of the sort area*/ = (iStartelement + iLastelement) / 2;
+
+	if (iStartelement < iCentralElement) merge_rec(SourceArray, iStartelement, iCentralElement, WorkingArray);
+	if (iCentralElement + 1 < iLastelement) merge_rec(SourceArray, iCentralElement + 1, iLastelement, WorkingArray);
+
+	//series merger
+	int i = iStartelement, j = iCentralElement + 1, k;
+
+	for (k = iStartelement; k <= iLastelement; ++k)
+	{
+		if (j > iLastelement) WorkingArray[k] = SourceArray[i++];
+		else if (i > iCentralElement) WorkingArray[k] = SourceArray[j++];
+		else if (SourceArray[i] <= SourceArray[j]) WorkingArray[k] = SourceArray[i++];
+		else WorkingArray[k] = SourceArray[j++];
+	}
+	//series merger
+	for (int i = iStartelement; i <= iLastelement; ++i)
+			SourceArray[i] = WorkingArray[i];
+}
+
+void merge_sort(int *SourceArray, int iNumberElementsArray)
+{
+	int * WorkingArray = new int[iNumberElementsArray];
+	merge_rec(SourceArray, 0, iNumberElementsArray - 1, WorkingArray);//On the first call iStartelement = 0 & iLastelement = iNumberElementsArray-1 for an array of length 'iNumberElementsArray'
+
+	for (int i = 0; i < iNumberElementsArray; i++)
+		cout << SourceArray[i] << " ";
+	delete[] WorkingArray;
+
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	
+	int iNumberElementsArray;
+	cin >> iNumberElementsArray;
+	int *SourceArray = new int[iNumberElementsArray];
+
+	for (int i = 0; i < iNumberElementsArray; ++i)
+		cin >> SourceArray[i];
+
+	merge_sort(SourceArray, iNumberElementsArray);
+	delete[] SourceArray;
+	return 0;
+}

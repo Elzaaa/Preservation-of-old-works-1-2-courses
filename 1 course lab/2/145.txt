@@ -1,0 +1,81 @@
+#include <iostream>
+using namespace std;
+int D[10000000];
+void merge_rec(long long* mass, long long iStart, long long iEnd, long long& iInversion)
+{
+	long long iTempStart = iStart;
+	long long iMid = iStart + (iEnd - iStart) / 2;
+	long long iMid1 = iMid + 1;
+	long long iAdd = 0;
+	for (; iTempStart <= iMid && iMid1 <= iEnd;)
+	{
+		if (mass[iTempStart] <= mass[iMid1])
+		{
+			D[iAdd] = mass[iTempStart];
+			iTempStart++;
+		}
+		else
+		{
+			D[iAdd] = mass[iMid1];
+			iMid1++;
+			iInversion = iInversion + (iMid - iTempStart + 1);
+		}
+		iAdd++;
+	}
+	for (; iTempStart <= iMid;)
+	{
+		D[iAdd] = mass[iTempStart];
+		iTempStart++;
+		iAdd++;
+	}
+	for (; iMid1 <= iEnd;)
+	{
+		D[iAdd] = mass[iMid1];
+		iMid1++;
+		iAdd++;
+	}
+	for (iTempStart = 0; iTempStart < iAdd; ++iTempStart)
+	{
+		mass[iStart + iTempStart] = D[iTempStart];
+	}
+}
+void merge_sort(long long* mass, long long iLeft, long long iRight, long long &iInversion)
+{
+	if (iLeft < iRight)
+	{
+		if (iRight - iLeft == 1)
+		{
+			if (mass[iLeft] > mass[iRight])
+			{
+				long long lTmp = mass[iLeft];
+				mass[iLeft] = mass[iRight];
+				mass[iRight] = lTmp;
+				iInversion++;
+			}
+		}
+		else
+		{
+			merge_sort(mass, iLeft, iLeft + (iRight - iLeft) / 2, iInversion);
+			merge_sort(mass, iLeft + (iRight - iLeft) / 2 + 1, iRight, iInversion);
+			merge_rec(mass, iLeft, iRight, iInversion);
+		}
+	}
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long long iNum;
+	cin >> iNum;
+	long long* mass = new long long[iNum];
+	for (int i = 0; i < iNum; ++i)
+	{
+		cin >> mass[i];
+	}
+	long long iInversion = 0;
+	
+	merge_sort(mass, 0, iNum -1, iInversion);
+	cout << iInversion;
+	return 0;
+}
