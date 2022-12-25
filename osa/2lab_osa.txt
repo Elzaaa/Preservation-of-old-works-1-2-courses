@@ -1,0 +1,120 @@
+#!/bin/bash
+
+case "$1" in
+-mkd)
+    dir_name="$2"
+    if [ -z "$dir_name" ]
+     then
+      echo "Please enter argument"
+     else
+      mkdir "$dir_name"
+    fi
+ echo
+;;
+-dd)
+    dir_name="$2"
+    if [ -z $dir_name ]
+     then 
+      echo "Please enter argument"
+    elif [ -d $dir_name ] 
+    then
+     rm -r "$dir_name"
+    else 
+    echo "there is no such directory"
+    fi
+ echo
+;;  
+-mkf) 
+    file_name="$2"
+    if [ -z "$file_name" ]
+     then
+    echo "Please enter argument"
+    else
+     touch "$file_name"
+    fi
+ echo
+;;
+-df)
+    dir_name="$2"
+    if [ -z "$dir_name" ]
+     then
+      echo "Please enter argument"
+    elif [ -f "$dir_name" ]
+     then
+      rm $dir_name
+    else
+     echo "there is no such directory"
+    fi
+ echo
+;;
+-mkhl) 
+    target_file="$2" 
+    hard_link="$3" 
+    if [[ -z "$target_file" || -z "$hard_link" ]]; then
+    echo "wrong"
+      elif [ -e "$target_file" ]; then
+      ln "$target_file" "$hard_link"
+    else 
+    echo "wrong"
+    fi
+
+ echo
+ ;;
+-mksl) 
+    target_file="$2"
+    soft_link="$3"
+    if [[ -z "$target_file" || -z "$soft_link" ]]; then
+    echo "wrong"
+      elif [ -e "$target_file" ]; then
+      ln -s "$target_file" "$soft_link"
+    else 
+    echo "wrong"
+fi
+ echo
+;;
+-mvd) 
+    what="$2"
+    where="$3" 
+    if [[ -z "$what" || -z "$where" ]]; then 
+    echo "wrong"
+    elif [[ -d "$what" && -e "$where" ]]; then #if there is no such file, Linux itself will not let us do it
+     mv "$what" "$where"
+    else 
+     echo "wrong"
+fi
+ echo
+;;
+-mvf) 
+    what="$2"
+    where="$3"
+    if [[ -z "$what" || -z "$where" ]]; then 
+    echo "wrong"
+    elif [[ -f "$what" && -e "$where" ]]; then #if there is no such file, Linux itself will not let us do it
+     mv "$what" "$where"
+    else
+      echo "wrong"
+fi
+ echo
+;;
+-su) 
+    umask_new="$2"
+    re='[0-7][0-7][0-7][0-7]'
+if [ -z "$umask_new" ]
+     then 
+      echo "Please enter argument"
+elif  [[ $umask_new =~ $re ]]; then
+  umask "$umask_new"
+  echo "the umask value changed, but then it goes back to the default"
+else 
+echo "don't correct umask"
+fi
+    echo
+ ;;
+-gu) 
+    umask 
+ echo
+;;
+*) 
+    echo "$1 mmm is not an option" 
+;;
+esac

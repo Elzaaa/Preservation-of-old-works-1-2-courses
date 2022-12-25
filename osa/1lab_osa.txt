@@ -1,0 +1,53 @@
+#!/bin/bash
+exit=0
+while [ $exit == 0 ]
+ do
+  echo -e "    1) List of users" 
+  echo -e "    2) Show users' membership" 
+  echo -e "    3) Amount of user"
+  echo -e "    4) Show group detailed info"
+  echo -e "    5) Ouit" 
+  echo "    Please choose your action:" 
+  read answer
+  case "$answer" in
+1)
+ cut -d: -f1 /etc/passwd | sed 's/^/    /'
+ echo
+ ;;
+2)
+ for user in $(awk -F: '{print $1}' /etc/passwd); do groups $user; done | sed 's/^/    /'          
+ echo
+ ;;
+3)
+getent passwd | wc -l | sed 's/^/    /'
+#wc -l  /etc/passwd
+ echo
+ ;;
+4)
+
+ read -p "    Enter group:" group
+
+   if [ -z $group ]; then 
+  echo "    Error"
+else 
+   while IFS=: read -r f1 f2 f3 f4
+    do 
+     if [ $f1 ==  $group ]; then
+      echo "    Group name: $f1" 
+      echo "    Password: we cannot show the password, because they are encrypted (passwords are classified)" 
+      echo "    Group id: $f3"
+      echo "    Members List: $f4" 
+     fi
+   done < /etc/group
+  fi
+ echo
+ ;;
+5)
+ exit=1
+ echo
+ ;;
+*)
+ echo "    Not option"
+ echo
+esac
+done

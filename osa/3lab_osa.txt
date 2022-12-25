@@ -1,0 +1,96 @@
+#!/bin/bash
+case "$1" in
+-stat)
+
+    cmd=`ps o cmd "$2" | grep -v CMD`
+    pid="$2"
+    ppid=`ps o ppid "$pid" | grep -v PPID | sed 's/\s*//'`
+    stat=`ps o stat "$pid" | grep -v STAT`
+
+    lcmd=${#cmd}
+    lpid=${#pid}
+    lppid=${#ppid}
+
+     if [ -z "$cmd" ]; then
+      echo "Please enter PID"
+     else
+       echo "CMD" | tr '\n' ' '
+       for (( i=1; i <= lcmd; ++i))
+       do
+          echo | tr '\n' ' '
+       done
+
+        echo "PID" | tr '\n' ' '
+        for (( i=1; i <= lpid; ++i))
+        do
+          echo | tr '\n' ' '
+        done
+
+        echo "PPID" | tr '\n' ' '
+        for (( i=1; i <= lppid; ++i))
+        do
+          echo | tr '\n' ' '
+        done
+
+        if [ "$stat" == "+" ]; then
+        stat='fg'
+        else
+        stat='bg'
+        fi
+
+        echo "STAT"
+
+        echo "'$cmd'  '$pid'  '$ppid'   '$stat'"
+
+        fi
+   ;;
+   
+-tree)
+    root_ppid=0
+    space=0
+    cmd=`ps o cmd "$2" | grep -v CMD`
+    pid="$2"
+    ppid=`ps o ppid "$pid" | grep -v PPID | sed 's/\s*//'`
+   
+        echo "$cmd($pid, $ppid)" 
+        
+        while [ ! $ppid == $root_ppid ]; do
+            pid=$ppid
+            cmd=`ps o cmd "$pid" | grep -v CMD`      
+            ppid=`ps o ppid "$pid" | grep -v PPID | sed 's/\s*//'`
+            space=$space+1    
+            for (( i=0; i <= space; ++i ))
+            do
+                echo " " | tr '\n' ' '
+            done
+            
+            echo "|-" | tr '\n' '-'
+            space=$space+1
+
+            echo "$cmd($pid, $ppid)"
+        done
+;;  
+-stop) 
+    PID="$2"
+    kill -SIGSTOP $PID
+    echo
+;;
+-kill)
+    PID="$2"
+    kill -9 $PID
+    echo
+;;
+-fg) 
+    echo "we cannot perform this task because we cannot bring the process to the fore"
+    echo
+ ;;
+
+*) 
+    echo "mmm I don't know what it is '$1' enter some of this:" 
+    echo "  'stat'" 
+    echo "  'tree'" 
+    echo "  'stop'" 
+    echo "  or maybe 'kill'" 
+    echo "  'fg'" 
+;;
+esac
