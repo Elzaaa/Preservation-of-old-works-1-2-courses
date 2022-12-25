@@ -1,0 +1,88 @@
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+#define PI 3.141592653589793238462643
+struct dot  // (x,y)
+{
+	double x;
+	double y;
+};
+
+struct line // ax+by+c = 0
+{
+	double a;
+	double b;
+	double c;
+};
+
+struct LineSegment
+{
+	dot A;
+	dot B;
+};
+
+struct triangle
+{
+	dot A;
+	dot B;
+	dot C;
+};
+struct vector_normaiy
+{
+	// ax+by = 0
+	double a;
+	double b;
+};
+bool PolarSystemToCartesian(double dAngle, double dLine, dot *A)
+{
+	A->x = cos(dAngle*PI / 180)*dLine;
+	A->y = sin(dAngle*PI / 180)*dLine;
+	return true;
+}
+double LawOfSines(double a, double angle_a, double angle_b)
+{
+
+	double dLine = (a*sin(angle_b*PI / 180)) / sin(angle_a*PI / 180);
+	return dLine;
+}
+double LawOfCosines(double a, double b, double c)
+{
+	double dAngle = acos(((b*b) + (c*c) - (a*a)) / (2 * b*c)) * 180 / PI;
+	return  dAngle;
+}
+double HalfSide(double dAngle_a, double dAngle_b, double dAngle_c, double dMedian)
+{
+	double dHalfSide;
+	//immediately translate to degrees from radians
+	dAngle_a *= PI / 180;
+	dAngle_b *= PI / 180;
+	dAngle_c *= PI / 180;
+	dHalfSide = sqrt((pow(dMedian, 2)*pow(sin(dAngle_b), 2)) / (pow(sin(dAngle_b), 2) + 4 * pow(sin(dAngle_a), 2) - 4 * sin(dAngle_a)*cos(dAngle_c)*sin(dAngle_b)));
+	return dHalfSide;
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	double  dMedian, dAngle_a, dAngle_b;
+
+	cin >> dMedian >> dAngle_a >> dAngle_b;
+
+	double dAngle_c = (180 - (dAngle_a + dAngle_b));
+	triangle Isk;
+	Isk.A.x = 0;//build the first point at (0; 0)
+	Isk.A.y = 0;
+	double dHalfSide = HalfSide(dAngle_a, dAngle_c, dAngle_b, dMedian);
+	Isk.B.x = 2 * dHalfSide;//build the first point at (b; 0)
+	Isk.B.y = 0;
+
+	double dLine_a = LawOfSines(2 * dHalfSide, dAngle_c, dAngle_b);
+	PolarSystemToCartesian(dAngle_a, dLine_a, &Isk.C);
+
+	cout << fixed << setprecision(11) << Isk.A.x << " " << Isk.A.y << endl;
+	cout << fixed << setprecision(11) << Isk.B.x << " " << Isk.B.y << endl;
+	cout << fixed << setprecision(11) << Isk.C.x << " " << Isk.C.y << endl;
+	return 0;
+}

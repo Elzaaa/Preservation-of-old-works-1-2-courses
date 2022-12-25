@@ -1,0 +1,112 @@
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+struct dot  // (x,y)
+{
+	double x;
+	double y;
+};
+
+struct line // ax+by+c = 0
+{
+	double a;
+	double b;
+	double c;
+};
+
+struct LineSegment
+{
+	dot A;
+	dot B;
+};
+
+struct triangle
+{
+	dot A;
+	dot B;
+	dot C;
+};
+struct vector_normaiy
+{
+	// ax+by = 0
+	double a;
+	double b;
+};
+
+bool MakeLineFromSegment(LineSegment *t, line *z) // return crossing line
+{
+	//ax+by+c = 0
+
+	z->a = t->A.y - t->B.y;
+	z->b = t->B.x - t->A.x;
+	z->c = t->A.x * t->B.y - t->B.x * t->A.y;
+
+	return true;
+}
+
+bool Normal(line *t, dot *N)
+{
+	N->x =( t->a)/2;
+	N->y =( t->b)/2;
+	return true;
+}
+bool Deduction1(dot*C, dot*N, dot*Coordinate)
+{
+	Coordinate->x = C->x- N->x;
+
+	Coordinate->y = C->y - N->y;
+	return true;
+}
+bool Deduction2(dot*C, dot*N, dot*Coordinate)
+{
+	Coordinate->x = C->x + N->x;
+	Coordinate->y = C->y + N->y;
+	return true;
+}
+bool MiddleOfSegemnt(LineSegment *seg, dot *M) // return dot-middle
+{
+	//here we work already with points and not with coordinates
+	
+	M->x = (seg->A.x + seg->B.x) / 2;
+	M->y = (seg->A.y + seg->B.y) / 2;
+
+	return true;
+}
+int main()
+{
+	/*Find the line and find its middle.
+	We pass to the midpoint the normal vector.
+	Normal vector / 2 because so*/
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	dot A, B, vectorNormal_2, Coordinate1, Coordinate2, Middle;
+	line la;
+
+	cin >> A.x >> A.y;
+	cin >> B.x >> B.y;
+
+	LineSegment a;
+	//line a ,section AB coordinates 
+	a.A.x = B.x;
+	a.A.y = B.y;
+	a.B.x = A.x;
+	a.B.y = A.y;
+
+	//create a line
+	MakeLineFromSegment(&a, &la);
+
+	MiddleOfSegemnt(&a, &Middle);
+
+	//create normal vector = >  from the equation of the line ax+by => (a;b)
+	Normal(&la, &vectorNormal_2);
+
+	//Subtract the normal vector (a, b) from the coordinates A (x, y) or B (x, y)
+	Deduction1(&Middle, &vectorNormal_2, &Coordinate1);
+	Deduction2(&Middle, &vectorNormal_2, &Coordinate2);
+
+	cout << Coordinate1.x << " " << Coordinate1.y<< endl << Coordinate2.x<<" "<< Coordinate2.y;
+	return 0;
+}

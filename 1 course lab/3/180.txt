@@ -1,0 +1,78 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+#define PI 3.141592653589793238462643
+struct dot  // (x,y)
+{
+	double x;
+	double y;
+};
+
+struct line // ax+by+c = 0
+{
+	double a;
+	double b;
+	double c;
+};
+
+struct LineSegment
+{
+	dot A;
+	dot B;
+};
+
+struct triangle
+{
+	dot A;
+	dot B;
+	dot C;
+};
+struct vector_normaiy
+{
+	// ax+by = 0
+	double a;
+	double b;
+};
+bool PolarSystemToCartesian(double dAngle, double dLine, dot *A)
+{
+
+	A->x = cos(dAngle*PI / 180.0)*dLine;
+	A->y = sin(dAngle*PI / 180.0)*dLine;
+	return true;
+}
+double LawOfSines(double a, double angle_a, double angle_b)
+{
+
+	double dLine = (a*sin(angle_b*PI / 180)) / sin(angle_a*PI / 180);
+	return dLine;
+}
+double LawOfCosines(double a, double b, double c)
+{
+	double dAngle = acos(((b*b) + (c*c) - (a*a)) / (2 * b*c))*180 / PI;
+	return  dAngle;
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	double dLine_a, dLine_b, dLine_c, dAngle_a, dAngle_b, dAngle_c,b;
+	cin >> dLine_a >> dLine_b >> dLine_c;
+	triangle Isk;
+	Isk.A.x = 0;//build the first point at (0; 0)
+	Isk.A.y = 0;
+
+	Isk.B.x = dLine_a;/*since we are building the first point (0; 0)the coordinate B.x of the second point will be (0 + dLine_a; 0)*/
+	Isk.B.y = 0;
+
+	double dAngle = LawOfCosines(dLine_c, dLine_a, dLine_b);
+
+	
+	PolarSystemToCartesian(dAngle, dLine_b, &Isk.C);
+
+	//immediately translate to degrees from radians
+	cout << fixed << setprecision(11) << Isk.A.x << " " << Isk.A.y << endl;
+	cout << fixed << setprecision(11) << Isk.B.x << " " << Isk.B.y << endl;
+	cout << fixed << setprecision(11) << Isk.C.x << " " << Isk.C.y << endl;
+	return 0;
+}

@@ -1,0 +1,113 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+struct dot  // (x,y)
+{
+	double x;
+	double y;
+};
+
+struct line // ax+by+c = 0
+{
+	double a;
+	double b;
+	double c;
+};
+
+struct LineSegment
+{
+	dot A;
+	dot B;
+};
+
+struct triangle
+{
+	dot A;
+	dot B;
+	dot C;
+};
+
+bool MakeLineFromSegment(LineSegment *t, line *z) // return crossing line
+{
+	//ax+by+c = 0
+
+	z->a = t->A.y - t->B.y;
+	z->b = t->B.x - t->A.x;
+	z->c = t->A.x * t->B.y - t->B.x * t->A.y;
+
+	return true;
+}
+
+/*bool CrossTwoLine(line *al, line *bl, dot *z) // return crossing dot
+{
+z->x = -1 * ((al->c * bl->b - bl->c * al->b) / (al->a * bl->b - bl->a * al->b));
+z->y = -1 * ((al->a * bl->c - bl->a * al->c) / (al->a * bl->b - bl->a * al->b));
+return true;
+}*/
+/*bool CrossTwoLine(line *al, line *bl, dot *z)
+{
+
+	double d = al->a*bl->b - bl->a*al->b;
+	z->x = (al->b*bl->c - bl->b*al->c) / d;
+	z->y = (bl->a*al->c - al->a*bl->c) / d;
+
+	/*z->x = (al.c*bl.a - al.a*bl.c) / (al.a*bl.b - al.b*bl.a);
+	z->y = (al.a*bl.c - al.c*bl.b) / (al.a*bl.b - al.b*bl.a);
+	return true;
+}*/
+
+double LengthOfSegment(LineSegment seg)
+{
+	// AB= sqrt( (Xb-Xa)^2 + (Yb-Ya)^2 ) Where: A(Xa;Ya) && B(Xb;Yb)
+	return 	sqrt(((seg.B.x - seg.A.x) * (seg.B.x - seg.A.x)) + ((seg.B.y - seg.A.y)* (seg.B.y - seg.A.y)));}
+
+bool Calk123(dot *T1, dot *T2, line*l )
+{
+	l->a = (T2->y - T1->y) / (T2->x - T1->x);
+	l->b = T1->y - ((T2->y - T1->y) / (T2->x - T1->x))* T1->x;
+	return true;
+}
+bool Calkh(line *l, dot *T, line*h)
+{
+	h->a = -1 / l->a;
+	h->b = T->y - (h->a*T->x);
+	return true;
+}
+bool CrossTwoDots(line *l1, line *l2, dot*T)
+{
+	T->x = (l2->b - l1->b) / (l1->a - l2->a);
+	T->y = l2->a*T->x+l2->b;
+	return true;
+}
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	dot A, B, C;
+	/*A.x = -10;
+	A.y = 3;
+	B.x = 1;
+	B.y = 6;
+	C.x = 0;
+	C.y = -10;*/
+	cin >> A.x >> A.y >> B.x >> B.y >> C.x >> C.y;
+
+	line AB, BC, CA;
+	Calk123(&A, &B, &AB);
+	Calk123(&B, &C, &BC);
+	Calk123(&C, &A, &CA);
+	
+	line g, j,n;
+	Calkh(&AB, &C, &g);
+	Calkh(&BC, &A, &j);
+	Calkh(&CA, &B, &n);
+
+	dot DotaCross;
+	CrossTwoDots(&n, &j, &DotaCross);
+	cout << fixed << setprecision(9) << DotaCross.x << " " << DotaCross.y;
+	return 0;
+}

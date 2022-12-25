@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+
+long double Jump(int indx, int n, long double*SourceArray)
+{
+	if (indx >= n) return 0;
+	long double T = SourceArray[indx];
+
+	//double X = Jump(indx + 2, n, SourceArray);
+	//double Y = Jump(indx + 3, n, SourceArray);
+
+	//T += (X > Y) ? X : Y;
+
+	long double T1 = (indx + 2 < n) ? SourceArray[indx + 2] : 0;
+	long double T2 = (indx + 3 < n) ? SourceArray[indx + 3] : 0;
+
+	if(T1 > T2) T += Jump(indx + 2, n, SourceArray);
+	else  T += Jump(indx + 3, n, SourceArray);
+
+	return T;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int n;
+	cin >> n;
+	long double *SourceArray = new long double[n];
+
+	for (int i = 0; i < n; ++i)
+		cin >> SourceArray[i];
+
+
+	cout << Jump(0, n, SourceArray);
+	delete[] SourceArray;
+	return 0;
+}

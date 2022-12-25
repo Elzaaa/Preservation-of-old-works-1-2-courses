@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+struct item
+{
+	int val;// значения из val будут передаваться в список
+	item *next = NULL;//Адресное поле
+	item *prev = NULL;
+};
+
+void AddItem(item**pHead, int i)
+{
+	item* cu = new item;
+	cu->val = i;
+	cu->prev = *pHead;
+	(*pHead)->next = cu;
+	cu->prev = *pHead;
+	(*pHead) = cu;
+}
+
+void Show(item *pCurrent)
+{
+	while (pCurrent != NULL)
+	{
+		cout << pCurrent->val << " ";
+		pCurrent = pCurrent->next;
+	}
+}
+void DeleteSpisok(item*pCurrent, item*pTail)
+{
+	while (pTail != NULL)
+	{
+		pCurrent = pTail;
+		pTail = pCurrent->next;
+		delete pCurrent;
+	}
+
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	item * pTail = new item;//самый первый кв
+	item * pHead = pTail;
+	cin >> pHead->val;
+
+	int i;
+	while (cin >> i)
+	{
+		AddItem(&pHead, i);
+
+	}
+
+	item*pCurrent = pTail;
+	Show(pCurrent);
+	DeleteSpisok(pCurrent, pTail);
+	return 0;
+}

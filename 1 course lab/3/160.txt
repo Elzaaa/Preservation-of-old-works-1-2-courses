@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+
+struct station
+{
+	int start;
+	int end;
+};
+
+void ostanovka(station* Bus1, station * Bus2)
+{
+	int iMin1 = min(Bus1->start, Bus1->end);
+	int iMax1 = max(Bus1->start, Bus1->end);
+
+	int iMin2 = min(Bus2->start, Bus2->end);
+	int iMax2 = max(Bus2->start, Bus2->end);
+
+	int iAns = min(iMax1, iMax2) - max(iMin1, iMin2);
+	if (iAns + 1 > 0)
+	{
+		cout << iAns+1;
+	}
+	else
+	{
+		cout << 0;
+	}
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	station Bus1, Bus2;
+
+	cin >> Bus1.start >> Bus1.end;
+    cin >> Bus2.start >> Bus2.end;
+
+	
+	ostanovka(&Bus1, &Bus2);
+
+	return 0;
+}

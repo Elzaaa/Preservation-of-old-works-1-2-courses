@@ -1,0 +1,140 @@
+#include iostream
+#include cmath
+#include iomanip
+using namespace std;
+
+struct dot   (x,y)
+{
+	double x;
+	double y;
+};
+
+struct line  ax+by+c = 0
+{
+	double a;
+	double b;
+	double c;
+};
+
+struct LineSegment
+{
+	dot A;
+	dot B;
+};
+
+struct triangle
+{
+	dot A;
+	dot B;
+	dot C;
+};
+
+bool MakeLineFromSegment(LineSegment t, line z)  return crossing line
+{
+	ax+by+c = 0
+
+	z-a = t-A.y - t-B.y;
+	z-b = t-B.x - t-A.x;
+	z-c = t-A.x  t-B.y - t-B.x  t-A.y;
+
+	return true;
+}
+
+bool CrossTwoLine(line al, line bl, dot z)  return crossing dot
+{
+z-x = -1  ((al-c  bl-b - bl-c  al-b)  (al-a  bl-b - bl-a  al-b));
+z-y = -1  ((al-a  bl-c - bl-a  al-c)  (al-a  bl-b - bl-a  al-b));
+return true;
+}
+bool CrossTwoLine(line al, line bl, dot z)
+{
+
+	double d = al-abl-b - bl-aal-b;
+	z-x = (al-bbl-c - bl-bal-c)  d;
+	z-y = (bl-aal-c - al-abl-c)  d;
+
+	z-x = (al.cbl.a - al.abl.c)  (al.abl.b - al.bbl.a);
+	z-y = (al.abl.c - al.cbl.b)  (al.abl.b - al.bbl.a);
+	return true;
+}
+
+double LengthOfSegment(LineSegment  seg)
+{
+	 AB= sqrt( (Xb-Xa)^2 + (Yb-Ya)^2 ) Where A(Xa;Ya) && B(Xb;Yb)
+	return 	sqrt(((seg-B.x - seg-A.x)  (seg-B.x - seg-A.x)) + ((seg-B.y - seg-A.y) (seg-B.y - seg-A.y)));
+}
+??? ??? ?? ????????? ?????? 
+
+bool  Perpendicular(dot N, line one, line h)
+{
+	h-a = one-b;
+	h-b = -one-a;
+	h-c = one-a  N-y - one-b  N-x;
+
+	return true;
+}
+int main()
+{
+freopen(input.txt, r, stdin);
+freopen(output.txt, w, stdout);
+dot A;
+A.x = -10;
+A.y = 3;
+line la;
+la.a = 5;
+la.b = -11;
+line li;
+li.a = -1  la.a;
+li.b =  A.y-(li.aA.x);
+cout  li.a     li.b;
+
+return 0;
+}
+
+int main()
+{
+	freopen(input.txt, r, stdin);
+	freopen(output.txt, w, stdout);
+	double dlina_a, dlina_b, dlina_c, dPerimeter, dSquare,x0,y0, dAngle_a, dAngle_b, dAngle_c;
+
+	triangle S;
+	cin  S.A.x  S.A.y;
+	cin  S.B.x  S.B.y;
+	cin  S.C.x  S.C.y;
+	LineSegment a;
+	LineSegment b;
+	LineSegment c;
+	line a ,section BC coordinates 
+	a.A.x = S.B.x;
+	a.A.y = S.B.y;
+	a.B.x = S.C.x;
+	a.B.y = S.C.y;
+
+	line b ,section AC coordinates 
+	b.A.x = S.A.x;
+	b.A.y = S.A.y;
+	b.B.x = S.C.x;
+	b.B.y = S.C.y;
+
+	line c ,section AB coordinates 
+	c.A.x = S.B.x;
+	c.A.y = S.B.y;
+	c.B.x = S.A.x;
+	c.B.y = S.A.y;
+
+
+
+	line la, lb;
+	MakeLineFromSegment(&a, &la);
+	MakeLineFromSegment(&b, &lb);
+	dot A, B;
+	line n, m;
+	Perpendicular(&A, &la, &n);
+	Perpendicular(&B, &lb, &m);
+
+	dot DotaCross;
+	 CrossTwoLine(&m, &n, &DotaCross);
+
+	cout  fixed  setprecision(6)  DotaCross.x     DotaCross.y  endl;
+	return 0;
+}
