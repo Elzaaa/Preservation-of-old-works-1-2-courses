@@ -1,0 +1,72 @@
+#include <iostream>
+#include<ctime>
+#include <cmath> 
+#include <random>
+#include <iomanip>
+#include <algorithm>
+using namespace std;
+const double E = 2.718281828459045;
+
+int main()
+{
+	cout.flush();
+	double dFunction, dFunctionPrev;
+	double dX = 0, dXprev = 0, dMaxX;
+	double dProbability, dProb1;
+	double S;
+	double T;
+	double dA, dB;
+	int iN;
+
+	cin >> iN >> dA >> dB;
+
+	double* mass = new double[iN + 1];
+	double* ans = new double[iN];
+	mass[0] = dA;//заполняем границы
+	mass[iN] = dB;
+	for (int i = 1; i < iN; ++i)
+	{
+		mass[i] = mass[i - 1] + ((dB - dA) / iN);
+	}
+
+	for (int i = 0; i < iN; ++i)
+	{
+		dXprev = (double)rand() / RAND_MAX * (mass[i + 1] - mass[i]) + mass[i];
+		cout << "? " << dXprev << endl;
+		cin >> dFunctionPrev;
+		T = 5000000;
+		while (T >= 0.000001)
+		{
+			dX = (double)rand() / RAND_MAX * (mass[i + 1] - mass[i]) + mass[i];
+			cout << "?" << " " << dX << endl;
+			cin >> dFunction;
+			S = dFunction - dFunctionPrev;
+			if (S > 0)
+			{
+				dXprev = dX;
+				dFunctionPrev = dFunction;
+				dMaxX = dX;
+			}
+			else
+			{
+				dProbability = pow(E, 1 * (S / T));
+				dProb1 = (double)(rand()) / RAND_MAX;
+				if (dProbability > dProb1)
+				{
+					dXprev = dX;
+					dFunctionPrev = dFunction;
+				}
+			}
+			T = T * 0.99;
+		}
+		ans[i] = dMaxX;
+	}
+	cout << "! ";
+	for (int i = 0; i < iN; ++i)
+	{
+		cout << ans[i] << " ";
+	}
+	delete []mass;
+	delete []ans;
+	return 0;
+}

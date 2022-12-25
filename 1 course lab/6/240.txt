@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cmath> 
+#include <iomanip>
+#include <stdio.h>
+#include <random>
+using namespace std;
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.flush();
+	double dX, dY;
+	double dFuncXY=10000000, dFuncXYPrev;
+	double dGradientX, dGradientY;
+	dX = 0;
+	dY = 0;
+	double e = 0.5;
+	cout << "? " << dX << " " << dY << endl;
+	cin >> dFuncXYPrev >> dGradientX >> dGradientY;
+	while (abs(dFuncXY - dFuncXYPrev) > 0.000001)
+	{
+		dX =dX - e * dGradientX;
+		dY =dY - e * dGradientY;
+		dFuncXY = dFuncXYPrev;
+		cout << "? " << dX << " " << dY << endl;
+		cin >> dFuncXYPrev >> dGradientX >> dGradientY;
+	}
+	cout << "! " << dX << " " << dY << endl;
+	return 0;
+}

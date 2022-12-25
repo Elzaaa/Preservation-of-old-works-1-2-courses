@@ -1,0 +1,155 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <random>
+using namespace std;
+
+#define alfa 14 
+#define beta 10
+#define Q 500 
+#define p 0.50 
+#define iCnt 100
+
+struct dot
+{
+    double x; 
+    double y; 
+};
+
+struct road
+{
+    double L; 
+    double F; 
+}; 
+bool Visited[30];
+road Cities[30][30];
+int Best[10000][30];
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    int iPoints, iNextCity, i, j, k, iStartMin, index;
+
+    double P[30];
+    double L2, otres, dDeltaF;
+    int way[30][30];
+    dot Start[30];
+    double LocalMin = 1000; 
+    double GlobMin = 1000;
+
+    cin >> iPoints;
+
+    for (i = 0; i < iPoints; i++)
+    {
+        cin >> Start[i].x >> Start[i].y;
+    }
+    for (i = 0; i < iPoints - 1; ++i)
+    {
+        for (j = i + 1; j < iPoints; ++j)
+        {
+            //ищем длинну
+            Cities[i][j].L = sqrt(pow((Start[j].x - Start[i].x), 2) + pow((Start[j].y - Start[i].y), 2));
+            Cities[j][i].L = Cities[i][j].L;
+            //ставим ферамоны
+            Cities[i][j].F = 1;
+            Cities[j][i].F = 1;
+        }
+    }
+    int start;
+    for (int r = 0; r < iCnt; ++r)
+    {
+        for (i = 0; i < iPoints; ++i)
+        {
+            L2 = 0;
+            Visited[i] = true;//massiv что бы не вернуться в этот город
+            way[i][0] = i;
+            start = i;
+            for (k = 0; k < iPoints - 2; ++k)
+            {
+                for (j = 0; j < iPoints; ++j)
+                {
+                    if (Visited[j] != true) //если муравей еще там не был
+                    {
+                        double dSumma = 0;
+                        for (int i = 0; i < iPoints; i++)
+                        {
+                            if (Visited[i] != true)
+                            {
+                                if (Cities[start][i].L != 0)
+                                {
+                                    dSumma += pow((1 / Cities[start][i].L), beta) * pow(Cities[start][i].F, alfa);
+                                }
+                            }
+                        }
+                        //считаем вероятность перехода из прошлого города в новый
+                        P[j] = 100 * (pow((1 / Cities[start][j].L), beta) * pow(Cities[start][j].F, alfa) / dSumma);
+                    }
+                }
+                double dSegment;
+                dSegment = (double)(rand()) / RAND_MAX * 100;
+
+                otres = 0;
+                int iNextCity = -1;
+                for (j = 0; j < iPoints && iNextCity == -1; ++j)
+                {
+                    if (Visited[j] != true)//если муравей еще там не был
+                    {
+                        otres += P[j];
+                        if (dSegment < otres)
+                        {
+                            iNextCity = j;
+                        }
+                    }
+                }
+                way[i][k + 1] = iNextCity;
+                L2 += Cities[start][iNextCity].L;
+                Visited[iNextCity] = true;
+                start = iNextCity;
+            }
+            iNextCity = 0;
+
+            while (Visited[iNextCity] != false)
+            {
+                iNextCity++;
+            }
+            way[i][iPoints - 1] = iNextCity;
+            L2 += Cities[start][iNextCity].L + Cities[iNextCity][i].L;
+            if (L2 < LocalMin)
+            {
+                LocalMin = L2;
+                iStartMin = i;
+            }
+
+            for (j = 0; j < iPoints; ++j)
+            {
+                Visited[j] = 0;
+            }
+        }
+        dDeltaF = Q / L2;
+        for (j = 0; j < iPoints - 1; ++j)
+        {
+            int x = way[iStartMin][j];
+            int y = way[iStartMin][j + 1];
+            Cities[x][y].F = (1 - p) * Cities[x][y].F + dDeltaF;//считаем новый ферамон
+            Cities[y][x].F = Cities[x][y].F;
+        }
+
+        if (LocalMin < GlobMin)
+        {
+            GlobMin = LocalMin;
+            for (j = 0; j < iPoints; ++j)
+            {
+                Best[r][j] = way[iStartMin][j];
+            }
+            index = r;
+        }
+    }
+    cout << fixed << setprecision(6) << GlobMin << endl;
+    for (i = 0; i < iPoints; ++i)
+    {
+        cout << Best[index][i] + 1 << " ";
+    }
+    return 0;
+}

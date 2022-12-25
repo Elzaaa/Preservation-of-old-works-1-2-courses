@@ -1,0 +1,44 @@
+#include <iostream>
+#include<ctime>
+#include <cmath> 
+#include <random>
+#include <iomanip>
+using namespace std;
+const double E = 2.718281828459045;
+
+
+int main()
+{
+	double dFunction, dFunctionPrev;
+	double dX, dXprev;
+	double T = 5000000;
+	double dProbability, dProb1;
+	cout << "?" << " " << fixed << setprecision(6) << -1 << endl;
+	cin >> dFunctionPrev;
+	while (T > 0.00001)
+	{
+		dX = (float)rand() / RAND_MAX * 200 - 100;;
+		cout << "?" << " " << fixed << setprecision(6) << dX << endl;
+		cin >> dFunction;
+		double S = dFunction - dFunctionPrev;
+
+		if (S < 0)
+		{
+			dXprev = dX;
+			dFunctionPrev = dFunction;
+		}
+		else 
+		{
+			dProbability = 100 * pow(E, -1 * (S / T));
+			dProb1 = rand() % 100 + 1;//[1;...]diapazon from 1 to 99
+			if (dProbability > dProb1)
+			{
+				dXprev = dX;
+				dFunctionPrev = dFunction;
+			}
+		}
+		T = T * 0.99;
+	}
+	printf("! %lf\n", dXprev);
+	return 0;
+}

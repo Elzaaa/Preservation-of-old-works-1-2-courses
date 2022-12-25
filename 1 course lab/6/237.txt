@@ -1,0 +1,81 @@
+/*
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+void interactor(double x, double* dFunc, double* dDeriv)
+{
+    fflush(stdout);
+    printf("? %lf\n", x);
+    scanf("%lf", dFunc);
+    scanf("%lf", dDeriv);
+}
+
+int main()
+{
+    double dX = 1;
+    double dFunction;
+    double dDerivative;
+
+    interactor(dX, &dFunction, &dDerivative);
+
+    while (abs(dFunction / dDerivative) > 0.000001)
+    {
+        dX = dX - (dFunction / dDerivative);
+        interactor(dX, &dFunction, &dDerivative);
+    }
+
+    printf("! %.6lf\n", dX);
+}*/
+/*#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+    fflush(stdout);
+    double dX = 1;
+    double dFunction;
+    double dDerivative;
+
+    printf("? %.15lf\n", dX);
+    scanf_s("%lf", &dFunction);
+    scanf_s("%lf", &dDerivative);
+
+    while (abs(dFunction) > 0.000001)
+    {
+        dX = dX - dFunction / dDerivative;
+        printf("? %.15lf\n", dX);
+        scanf_s("%lf", &dFunction);
+        scanf_s("%lf", &dDerivative);
+    }
+
+    printf("! %.6lf\n", dX);
+}*/
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+    fflush(stdout);
+    double dX = 1;
+    double dFunction;
+    double dDerivative;
+
+    cout << "?" << " " << fixed << setprecision(6) << dX << endl;
+    cin >> dFunction >> dDerivative;
+
+    while (abs(dFunction) > 0.000001)
+    {
+        dX = dX - dFunction / dDerivative;
+        cout << "?" << " " << fixed << setprecision(6) << dX << endl;
+        cin >> dFunction >> dDerivative;
+    }
+
+    cout << "!" << " " << fixed << setprecision(6) << dX << endl;
+}

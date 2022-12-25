@@ -1,0 +1,76 @@
+#include <iostream>
+#include <cmath> 
+#include <random>
+#include <algorithm> 
+#include <ctime>
+
+using namespace std;
+
+const double EPS = 0.000001;
+const double OMEGA = 0.6;
+const double WEIGHT1 = 0.8;
+const double WEIGHT2 = 0.9;
+
+struct particle
+{
+	double val, bestVal;
+	double x, y;
+	double speedX, speedY;
+	double bestX, bestY;
+};
+int main()
+{
+	double BestDotX, BestDotY;
+	int BestDot = INFINITY, IndexOfBest;
+	particle d[700];
+	for (int i = 0; i < 700; ++i)
+	{
+		d[i].bestX = (double)rand() / RAND_MAX * 200 - 100;
+		d[i].x = d[i].bestX;
+		d[i].bestY = (double)rand() / RAND_MAX * 200 - 100;
+		d[i].y = d[i].bestY;
+		d[i].speedX = (double)rand() / RAND_MAX * 200 - 100;
+		d[i].speedY = (double)rand() / RAND_MAX * 200 - 100;
+		cout << "? " << d[i].bestX << " " << d[i].bestY << endl;
+		cout.flush();
+		cin >> d[i].bestVal;
+		if (d[i].bestVal < BestDot)
+		{
+			BestDot = d[i].bestVal;
+			BestDotX = d[i].bestX;
+			BestDotY = d[i].bestY;
+			IndexOfBest = i;
+		}
+	}
+	for (int j = 0; j < 100; ++j)
+	{
+		for (int i = 0; i < 700; ++i)
+		{
+			double r1 = ((double)(rand()) / RAND_MAX);
+			double r2 = ((double)(rand()) / RAND_MAX);
+			d[i].speedX = OMEGA * d[i].speedX + r1 * WEIGHT1 * (d[i].bestX - d[i].x) + WEIGHT2 * r2 * (BestDotX - d[i].x);
+			d[i].speedY = OMEGA * d[i].speedY + r1 * WEIGHT1 * (d[i].bestY - d[i].y) + WEIGHT2 * r2 * (BestDotY - d[i].y);
+			d[i].x = d[i].x + d[i].speedX;
+			d[i].y = d[i].y + d[i].speedY;
+			cout << "? " << d[i].x << " " << d[i].y << endl;
+			cout.flush();
+			cin >> d[i].val;
+			if (d[i].val < d[i].bestVal)
+			{
+				d[i].bestVal = d[i].val;
+				d[i].bestX = d[i].x;
+				d[i].bestY = d[i].y;
+				if (d[i].bestVal < BestDot)
+				{
+					BestDot = d[i].bestVal;
+					BestDotX = d[i].bestX;
+					BestDotY = d[i].bestY;
+					IndexOfBest = i;
+				}
+			}
+		}
+	}
+	cout << "! " << d[IndexOfBest].bestX << " " << d[IndexOfBest].bestY << endl;
+	cout.flush();
+	return 0;
+}

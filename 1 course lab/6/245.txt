@@ -1,0 +1,163 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <list>
+#include <cmath>
+
+using namespace std;
+
+struct parent
+{
+	int x, y;
+};
+
+struct node
+{
+	int g, f;
+	int x, y;
+	int val;
+	parent pAncestors;//ее предок
+};
+
+struct compare//сравнение 
+{
+	bool operator() (node v1, node v2)
+	{
+		return v1.f > v2.f;
+	}
+};
+
+bool search(priority_queue<node, vector<node>, compare> Open, node p)
+{
+	priority_queue<node, vector<node>, compare> temp = Open;
+	while (!temp.empty())
+	{
+		if (temp.top().x == p.x && temp.top().y == p.y)
+		{
+			return true;
+		}
+		temp.pop();
+	}
+	return false;
+}
+int EuclidDistance(int iStartX, int iEndX, int iStartY, int iEndY)
+{
+	int iDist = sqrt(pow((iStartX - iEndX),2) + pow((iStartY - iEndY),2));
+	return iDist;
+}
+
+void print(list<node> path)
+{
+	cout << path.size() << endl;
+	while (!path.empty())
+	{
+		cout << path.front().x + 1 << " " << path.front().y + 1 << endl;
+		path.pop_front();
+	}
+}
+void AStar(int n, int m, node** matrix, node start, node goal)
+{
+	priority_queue<node, vector<node>, compare> Open, Close;
+	start.g = 0;
+	start.f = start.g + EuclidDistance(start.x, goal.x, start.y, goal.y);
+	Open.push(start);//открытый список
+	while (!Open.empty())
+	{
+		node cur = Open.top();//кар-текущий
+		if (cur.x == goal.x && cur.y == goal.y)
+		{
+			break;
+		}
+		Open.pop();
+		Close.push(cur);//закрытый список перемещаешь из открытого кар
+		vector<node> NeighborTwo;//ноде-узел
+		for (int i = -1; i < 2; i += 2)// i=-1 идет вниз если i=1 вверх
+		{
+			if (cur.y + i >= 0 && cur.y + i < n && matrix[cur.y + i][cur.x].val != -1 && !search(Open, matrix[cur.y + i][cur.x]))//ищет в Q этот типо если эту вершину еще не расматривали и не предпологали сосед соседа
+			{
+				NeighborTwo.push_back(matrix[cur.y + i][cur.x]);
+			}
+			if (cur.x + i >= 0 && cur.x + i < m && matrix[cur.y][cur.x + i].val != -1 && !search(Open, matrix[cur.y][cur.x + i]))
+			{
+				NeighborTwo.push_back(matrix[cur.y][cur.x + i]);
+			}
+		}
+		for (int i = 0; i < NeighborTwo.size(); ++i) //расматриваемочередь со всеми соседями
+		{
+			node p = NeighborTwo[i];
+			int iQuantity = cur.g + 1;//вес +1 все переходы стоимостью 1
+			if (search(Close, p) && iQuantity >= p.g)//поиск в закрытых
+			{
+				continue;
+			}
+			if (!search(Close, p) || iQuantity < p.g)
+			{
+				//записываем предков , путь, обновляем путь
+				matrix[p.y][p.x].pAncestors.x = cur.x;
+				matrix[p.y][p.x].pAncestors.y = cur.y;
+				matrix[p.y][p.x].g = iQuantity;
+				matrix[p.y][p.x].f = matrix[p.y][p.x].g + EuclidDistance(p.x, goal.x, p.y, goal.y);
+				if (!search(Close, matrix[p.y][p.x]))//если сосед соседа записываем его в ку чтоб расматривать потом его
+				{
+					Open.push(matrix[p.y][p.x]);
+				}
+			}
+		}
+	}
+	list<node> path;
+	node point;
+	point = matrix[goal.y][goal.x];
+	path.push_front(point);
+	while (point.pAncestors.x != start.x || point.pAncestors.y != start.y)
+	{
+		point = matrix[point.pAncestors.y][point.pAncestors.x];
+		path.push_front(point);
+	}
+	path.push_front(start);
+	print(path);
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int n, m;
+	node start, goal;
+	cin >> n >> m;
+	cin >> start.x >> start.y >> goal.x >> goal.y;
+	node** matrix = new node * [n];//матрица
+	for (int i = 0; i < n; ++i)
+	{
+		matrix[i] = new node[m];
+	}
+
+	if (start.x == goal.x && start.y == goal.y)
+	{
+		cout << "1" << endl;
+		cout << goal.x << " " << goal.y;
+	}
+	else
+	{
+		start.x--; start.y--; goal.x--; goal.y--;// что бы зайти в матрицу [0][0]
+		for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j < m; ++j)
+			{
+				cin >> matrix[i][j].val;
+				matrix[i][j].f = 0;//энергия затраченная до приода в эту точку
+				matrix[i][j].g = INFINITY;//энергия которая предпологается для затрачивания
+				//присваивание координат
+				matrix[i][j].x = j;
+				matrix[i][j].y = i;
+			}
+		}
+		AStar(n, m, matrix, start, goal);
+	}
+	//удалить матрицу
+	for (int i = 0; i < n; ++i)
+	{
+		delete[]matrix[i];
+	}
+	delete[]matrix;
+	return 0;
+}

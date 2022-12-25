@@ -1,0 +1,114 @@
+#include <iostream>
+#include<ctime>
+#include <cmath> 
+#include <math.h> 
+#include <random>
+#include <iomanip>
+#include <stdio.h>
+
+using namespace std;
+const double E = 2.718281828459045;
+
+double funProizv(double x)
+{
+	double fff = -1.0 * pow(sin(x + 1), -2.0) - 2.0 * x * cos(x * x);
+	return (fff);
+}
+
+double funProizvAbs(double x)
+{
+	return fabs(funProizv(x));
+}
+
+double GetMaximum(double dMin, double dMax)
+{
+	double dFunction, dFunctionPrev;
+	double dX = 0, dXprev = 0, dMaxX;
+	double dProbability, dProb1;
+	double S;
+	double T;
+	double dA, dB;
+	int iN;
+
+	dXprev = - 3.0;
+	dFunctionPrev = funProizv(dXprev);
+	T = 5000000;
+	while (T >= 0.000001)
+	{
+		dX = (double)rand() / RAND_MAX * (dMax - dMin) + dMin;
+
+		dFunction = funProizv(dX);
+
+		S = dFunction - dFunctionPrev;
+		if (S > 0)
+		{
+			dXprev = dX;
+			dFunctionPrev = dFunction;
+			dMaxX = dX;
+		}
+		else
+		{
+			dProbability = pow(E, 1 * (S / T));
+			dProb1 = (double)(rand()) / RAND_MAX;
+			if (dProbability > dProb1)
+			{
+				dXprev = dX;
+				dFunctionPrev = dFunction;
+			}
+		}
+		T = T * 0.99;
+	}
+
+	return dMaxX;
+}
+
+double GetMinimum(double dMin, double dMax)
+{
+	double dFunction, dFunctionPrev;
+	double dX, dXprev;
+	double T = 5000000;
+	double dProbability, dProb1;
+	dFunctionPrev = funProizvAbs(-3);
+	while (T > 0.00001)
+	{
+		dX = (double)rand() / RAND_MAX * (dMax - dMin) + dMin;
+
+		dFunction = funProizvAbs(dX);
+		double S = dFunction - dFunctionPrev;
+
+		if (S < 0)
+		{
+			dXprev = dX;
+			dFunctionPrev = dFunction;
+		}
+		else
+		{
+			dProbability = 100 * pow(E, -1 * (S / T));
+			dProb1 = rand() % 100 + 1;//[1;...]diapazon from 1 to 99
+			if (dProbability > dProb1)
+			{
+				dXprev = dX;
+				dFunctionPrev = dFunction;
+			}
+		}
+		T = T * 0.99;
+	}
+
+	return dXprev;
+}
+
+int main()
+{
+	double Xmid =  GetMaximum(-3, -2);
+	printf("! %lf\n", Xmid);
+
+
+	double d1 = GetMinimum(-3, Xmid);
+	double d2 = GetMinimum(Xmid, -2);
+
+	printf("! %lf\n", d1);
+	printf("! %lf\n", d2);
+
+
+	return 0;
+}
