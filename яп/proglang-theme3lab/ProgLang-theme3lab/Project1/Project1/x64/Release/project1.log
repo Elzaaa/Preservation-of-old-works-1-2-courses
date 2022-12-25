@@ -1,0 +1,14 @@
+﻿  main.cpp
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(81,65): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(95,65): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(107,75): warning C4309: 'argument': truncation of constant value
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(109,18): warning C4091: '': ignored on left of 'const __m256i' when no variable is declared
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(107,33): warning C4101: '_sub': unreferenced local variable
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(127,65): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(129,13): warning C4068: unknown pragma 'parallel'
+  Generating code
+  3 of 552 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Project1.vcxproj -> C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\x64\Release\Project1.exe

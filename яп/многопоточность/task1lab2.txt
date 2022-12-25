@@ -1,0 +1,107 @@
+#include <windows.h> 
+#include <stdio.h> 
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+#include <mutex>
+#include <atomic>
+#include <condition_variable>
+
+using namespace std;
+
+std::condition_variable cv;
+std::mutex mtx;
+
+int iFlag = 0;
+
+void my_global_thread(int n) 
+{
+	std::this_thread::sleep_for(std::chrono::milliseconds(n*30));
+	cout << "Thread started " << n << endl;
+	while (1)
+	{
+		{
+			std::unique_lock<std::mutex> lk(mtx);
+
+			cv.wait(lk);
+		}
+
+		{
+			std::lock_guard<std::mutex> lk(mtx);
+			if (iFlag == n)
+			{
+				cout << "Thread waked up! " << n << endl;
+			}
+			else if(iFlag == -1)
+			{
+				break;
+			}
+		}
+	}
+	cout << "Thread over " << n << endl;
+}
+
+
+BOOL CtrlHandler(DWORD fdwCtrlType)
+{
+	switch (fdwCtrlType)
+	{
+	case CTRL_C_EVENT:
+	{
+		std::lock_guard<std::mutex> lk(mtx);
+		iFlag = -1;
+	}
+	cv.notify_all();
+		
+	return TRUE;
+
+	default:
+		return FALSE;
+	}
+}
+
+int main()
+{
+	SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlHandler, TRUE);
+
+	int iNum;
+	cout << "insert the number"<< endl;
+	cin >> iNum;
+
+	std::srand(std::time(nullptr));
+
+	vector<thread> threads;
+
+	for (int i = 1; i <= iNum; ++i)
+	{
+		threads.push_back(std::thread(my_global_thread, i));
+	}
+
+	while (1)
+	{
+		{
+			std::unique_lock<std::mutex> lk(mtx);
+
+			if (cv.wait_for(lk, 1000ms, [] {return iFlag == -1; }))
+			{
+				cout << "main loop is finished" << endl;
+				break;
+			}
+		}
+		{
+			std::lock_guard<std::mutex> lk(mtx);
+			iFlag = (abs(std::rand()) % (iNum)) + 1;
+			cout << "main will wakeup " << iFlag << endl;
+		}
+
+		cv.notify_all();
+	}
+
+	for (auto& th : threads) th.join();
+	std::cerr << "all threads were finished" << endl;
+
+	return 0;
+}

@@ -1,0 +1,49 @@
+#include <iostream> 
+using namespace std;
+int OddCheck(int n, int iLastDigit, int iAnswer, int iTen);
+
+
+
+int DataInput()
+{
+	int iNumber = 0;
+	cin >> iNumber;
+	return iNumber;
+}
+
+int DataOutput(int iNum)
+{
+	cout << iNum;
+	return 0;
+}
+
+int OddCheck(int n, int iLastDigit, int iAnswer, int iTen)
+{
+
+	if (n > 0)
+	{
+		iLastDigit = n % 10;//take the last digit of the number
+		if (iLastDigit % 2 == 1)//odd check
+		{
+			iAnswer = iAnswer + iTen * iLastDigit;//restoring tens of numbers for an answer
+			iTen = iTen * 10;
+		}
+		n = n / 10;//
+		OddCheck(n, iLastDigit, iAnswer, iTen);
+	}
+	else
+	{
+		return iAnswer;
+	}
+}
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	DataOutput(OddCheck(DataInput(), 0, 0, 1));
+
+	return 0;
+}

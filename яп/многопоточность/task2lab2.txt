@@ -1,0 +1,126 @@
+#include <windows.h> 
+#include <stdio.h> 
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+#include <mutex>
+#include <atomic>
+#include <condition_variable>
+#include <future>
+#include <algorithm>
+#include <random>  
+
+
+using namespace std;
+
+void FindMaxMin(int*mass, int iStart, int iEnd, std::promise<int> PromiseMax, std::promise<int> PromiseMin)
+{
+	int i, k;
+	int max = iStart;
+	int min = iStart;
+	
+	for ( i = iStart + 1; i <= iEnd; ++i)
+	{
+		if (mass[i] > mass[max])
+		{
+			max = i;
+		}
+		if (mass[i] < mass[min])
+		{
+			min = i;
+		}
+	}
+
+	PromiseMax.set_value(max);
+	PromiseMin.set_value(min);
+	//cout << max << " "<< endl;
+}
+
+int main()
+{
+	std::srand(std::time(nullptr));
+	int iNumArrayElements;
+	cin >> iNumArrayElements;
+	int* mass = new int[iNumArrayElements];
+	//random
+	mt19937 mersenne;
+	mersenne.seed(time(0));
+
+	if (iNumArrayElements >= 100000)
+	{
+
+		for (int i = 0; i < iNumArrayElements; ++i)
+		{
+			mass[i] = mersenne();
+			//cout << mass[i] << " ";
+		}
+		cout << endl;
+		for (int iNumOfThreads = 2; iNumOfThreads <= 16; iNumOfThreads *= 2)
+		{
+
+			float fStep = (float)(iNumArrayElements - 1) / (float)iNumOfThreads;
+			float fAccumStep = 0;
+
+			//cout << fStep << endl;
+
+			vector<thread> threads;
+
+			vector<future<int>> FutureMax;
+			vector<future<int>> FutureMin;
+
+			auto start = std::chrono::system_clock::now();
+
+			for (int i = 0; i < iNumOfThreads; ++i)
+			{
+				std::promise<int> promiseMax;
+				std::promise<int> promiseMin;
+
+				FutureMax.push_back(promiseMax.get_future());
+				FutureMin.push_back(promiseMin.get_future());
+
+				int iStart = fAccumStep + 1;
+				int iEnd = fAccumStep + fStep;
+
+				//cout << "{" << iStart << "," << iEnd << "}";
+
+				threads.push_back(std::thread(FindMaxMin, mass, iStart, iEnd, std::move(promiseMax), std::move(promiseMin)));
+				fAccumStep += fStep;
+			}
+			//cout << endl;
+
+
+			for (auto& th : threads) th.join();
+
+			int iMaxIndx = FutureMax[0].get();
+			int iMinIndx = FutureMin[0].get();
+			for (int i = 1; i < FutureMax.size(); ++i)
+			{
+				int iCurMaxIndx = FutureMax[i].get();
+				if (mass[iCurMaxIndx] > mass[iMaxIndx])
+				{
+					iMaxIndx = iCurMaxIndx;
+				}
+				int iCurMinIndx = FutureMin[i].get();
+				if (mass[iCurMinIndx] < mass[iMinIndx])
+				{
+					iMinIndx = iCurMinIndx;
+				}
+
+				//cout << FutureMax[i].get() << endl;
+			}
+			//cout << iMaxIndx << " " << mass[iMaxIndx] << "    " << iMinIndx << " " << mass[iMinIndx]<< endl;
+			auto end = std::chrono::system_clock::now();
+			std::chrono::duration<double> elapsed_seconds = end - start;
+			cout << iNumOfThreads << ": " << elapsed_seconds.count()<<"s" << endl;
+		}
+	}
+	else
+	{
+		cout << "Sorry, the number is too small. Please enter 100000 or more";
+	}
+	delete[] mass;
+	return 0;
+}

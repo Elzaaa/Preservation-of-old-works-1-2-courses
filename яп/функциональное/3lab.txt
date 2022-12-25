@@ -1,0 +1,104 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct dot
+{
+    int x;
+    int y;
+};
+struct triangle
+{
+    dot A;
+    dot B;
+    dot C;
+    double dCoefficient;
+};
+
+int DataInput()
+{
+    int iNumber = 0;
+    cin >> iNumber;
+    return iNumber;
+}
+vector<triangle> CreateVecTriangle(int n)
+{
+    vector<triangle> triangleArray(n);
+    return triangleArray;
+}
+vector<dot> CreateVecDot()
+{
+    vector<dot> dotArray;
+    return dotArray;
+}
+vector<triangle> MakeArray(vector<triangle> triangleArray, int i)
+{
+    triangle T;
+    cin >> T.A.x >> T.A.y >> T.B.x >> T.B.y >> T.C.x >> T.C.y;
+    triangleArray[i] = T;
+    i++;
+    if (i == triangleArray.size()) //so we counted all the triangles
+    {
+        double dCoefficient;
+        cin >> dCoefficient;//the last line is the rateand we read it
+        triangleArray[0].dCoefficient = dCoefficient;
+
+        return triangleArray;
+    }
+    else
+    {
+        return MakeArray(triangleArray, i);
+    }
+
+}
+
+vector<dot> getVectors(vector<triangle> triangleArray, int iCount, vector<dot> dotArray)
+{
+    if (iCount < triangleArray.size())//subtract the beginning from the endand multiply by the coefficient
+    {
+        double dCoefficient = triangleArray.at(0).dCoefficient;
+        dot AB, BC, CA;
+        AB.x = (triangleArray[iCount].B.x - triangleArray[iCount].A.x) * dCoefficient;
+        AB.y = (triangleArray[iCount].B.y - triangleArray[iCount].A.y) * dCoefficient;
+        dotArray.push_back(AB);
+        BC.x = (triangleArray[iCount].C.x - triangleArray[iCount].B.x) * dCoefficient;
+        BC.y = (triangleArray[iCount].C.y - triangleArray[iCount].B.y) * dCoefficient;
+        dotArray.push_back(BC);
+        CA.x = (triangleArray[iCount].A.x - triangleArray[iCount].C.x) * dCoefficient;
+        CA.y = (triangleArray[iCount].A.y - triangleArray[iCount].C.y) * dCoefficient;
+        dotArray.push_back(CA);
+
+        iCount++;
+        return getVectors(triangleArray, iCount, dotArray);
+    }
+    else
+    {
+        return dotArray;
+    }
+
+
+}
+void DataOutput(vector<dot> dotArray, int iCount)
+{
+    if (iCount < dotArray.size())
+    {
+        cout << dotArray[iCount].x << " " << dotArray[iCount].y << " ";
+        if ((iCount + 1) % 3 == 0)
+        {
+            cout << endl;
+        }
+        iCount++;
+        DataOutput(dotArray, iCount);
+    }
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    DataOutput(getVectors(MakeArray(CreateVecTriangle(DataInput()), 0), 0, CreateVecDot()), 0);
+
+    return 0;
+}

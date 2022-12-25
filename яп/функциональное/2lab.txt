@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <ctime>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+void FillVector(vector <int>& p, int iNum)
+{
+    if (iNum > 0)
+    {
+        int iVal;
+        cin >> iVal;
+        p.push_back(iVal);
+        FillVector(p, iNum - 1);
+    }
+
+}
+vector <int> ReadInput()
+{
+    int iNumber = 0;
+    cin >> iNumber;
+    vector <int> vRes;
+    vRes.push_back(iNumber);
+    FillVector(vRes, iNumber);
+    FillVector(vRes, iNumber);
+    return vRes;
+}
+
+vector <int> MySort(vector <int> input)
+{
+    int iNum = input.at(0);
+    vector <int> first;
+    vector <int> second;
+    vector <int> vRes;
+
+    first.insert(first.end(), input.begin() + 1, input.begin() + 1 + iNum);
+    second.insert(second.end(), input.begin() + 1 + iNum, input.end());
+
+    sort(first.begin(), first.end());
+    sort(second.begin(), second.end(), greater<int>());
+    vRes.push_back(iNum);
+    vRes.insert(vRes.end(), first.begin(), first.end());
+    vRes.insert(vRes.end(), second.begin(), second.end());
+    return vRes;
+}
+
+void WriteVector(vector <int>& p, vector <int>& p2, int iNum)
+{
+    if (iNum > 0)
+    {
+        cout << p[0] << " " << p2[0] << endl;
+        p.erase(p.begin());
+        p2.erase(p2.begin());
+
+        WriteVector(p, p2, min(p.size(), p2.size()));
+    }
+}
+
+void Output(vector <int> completed)
+{
+    int iNum = completed.at(0);
+    vector <int> first;
+    vector <int> second;
+
+    first.insert(first.end(), completed.begin() + 1, completed.begin() + 1 + iNum);
+    second.insert(second.end(), completed.begin() + 1 + iNum, completed.end());
+
+    WriteVector(first, second, iNum);
+}
+
+int main()
+{
+
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+
+    Output(MySort(ReadInput()));
+
+
+    return 0;
+}

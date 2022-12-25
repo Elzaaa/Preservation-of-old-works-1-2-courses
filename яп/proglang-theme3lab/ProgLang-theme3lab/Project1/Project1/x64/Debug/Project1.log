@@ -1,0 +1,9 @@
+﻿  main.cpp
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(84,65): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(98,65): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(112,75): warning C4309: 'argument': truncation of constant value
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(114,18): warning C4091: '': ignored on left of 'const __m256i' when no variable is declared
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(112,33): warning C4101: '_sub': unreferenced local variable
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(135,65): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\Project1\main.cpp(140,13): warning C4068: unknown pragma 'parallel'
+  Project1.vcxproj -> C:\Users\Elza\Desktop\proglang-theme3lab\ProgLang-theme3lab\Project1\x64\Debug\Project1.exe
