@@ -1,0 +1,106 @@
+#include <string>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+string StartString (string sOriginalStr)
+{
+	string sGoodStr;
+	string sTmpStr;
+	string sGoodStr1;
+	string sNewStr;
+
+	for (int i = 0; i < sOriginalStr.length(); ++i)
+	{
+
+		int x = sOriginalStr[i];
+
+		if (x >= 65 && x <= 90)
+		{
+			x = x + 32;
+		}
+
+		if ((x >= 48 && x <= 57) || (x >= 97 && x <= 122) || x == 32)
+		{
+			sGoodStr1.append(1, char(x));//добавляю по 1 символу в строку
+		}
+	}
+	
+	int iCounter = 0;
+	for (int i = 0; i < sGoodStr1.length(); ++i)
+	{
+		int x = sGoodStr1[i];
+		if (x != 32)
+		{
+			iCounter++;
+			sTmpStr += x;
+		}
+
+		else  // (x == 32)met a space
+		{
+			if (iCounter != 0) //заходил до этого
+			{
+				if (iCounter > 3)
+				{
+					sNewStr += sTmpStr;
+					sNewStr += x;
+					sTmpStr.clear();
+					iCounter = 0;
+				}
+				sTmpStr.clear();
+				iCounter = 0;
+			}
+		}
+		if (i + 1 == sGoodStr1.length())
+		{
+			if (iCounter > 3)
+			{
+				sNewStr += sTmpStr;
+			}
+		}
+	}
+	return sNewStr;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	string sOriginalStr1, sOriginalStr2;
+	string sNewStr1, sNewStr2;
+
+	getline(cin, sOriginalStr1);
+	sNewStr1 = StartString(sOriginalStr1);
+	getline(cin, sOriginalStr2);
+	sNewStr2 = StartString(sOriginalStr2);
+	int iCounter = 0;
+
+	int iSmaler;
+	if (sNewStr1.length() < sNewStr2.length() )
+	{
+		iSmaler = sNewStr1.length();
+	}
+	else
+	{
+		iSmaler = sNewStr2.length();
+	}
+	for (int i = 0; i < iSmaler; ++i)
+	{
+		if (sNewStr1[i] == sNewStr2[i])
+		{
+			iCounter++;
+		}
+	}
+	double dString1 = sNewStr1.length();
+	double dString2 = sNewStr2.length();
+	double iAnsver = iCounter / (abs(dString1) + abs(dString2) - iCounter);
+
+	cout<< iAnsver;
+
+	return 0;
+}

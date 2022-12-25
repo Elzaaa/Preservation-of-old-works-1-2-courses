@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+string normalize_string(string s) {
+	int count = 0;
+	string new_line, temporary_line, answer_line;
+	for (int i = 0; i < s.length(); i++) {
+		if (((s[i] >= 48) && (s[i] <= 57)) || ((s[i] >= 97) && (s[i] <= 122)) || (s[i] == 32)) {
+			new_line.append(1, s[i]);
+		}
+		if ((s[i] >= 65) && (s[i] <= 90)) {
+			s[i] = s[i] + 32;
+			new_line.append(1, s[i]);
+		}
+	}
+	for (int i = 0; i < new_line.length(); i++) {
+		if (new_line[i] == 32) {
+			if (count != 0) {
+				if (count > 3) {
+					answer_line = answer_line + temporary_line;
+					answer_line = answer_line + new_line[i];
+				}
+				temporary_line.clear();
+				count = 0;
+			}
+		}
+		else {
+			count++;
+			temporary_line = temporary_line + new_line[i];
+		}
+		if (i + 1 == new_line.length()) {
+			if (count > 3) {
+				answer_line = answer_line + temporary_line;
+			}
+		}
+	}
+	return answer_line;
+}
+
+
+
+double compare_strings(string s1, string s2) {
+	string words1[10000];
+	string words2[10000];
+	int j = 0, k = 0;
+	for (int i = 0; i < s1.length(); i++) {
+		if (s1[i] != 32) {
+			words1[j].append(1, s1[i]);
+		}
+		else {
+			j++;
+		}
+	}
+	for (int i = 0; i < s2.length(); i++) {
+		if (s2[i] != 32) {
+			words2[k].append(1, s2[i]);
+		}
+		else {
+			k++;
+		}
+	}
+	int count = 0;
+	int equal_words = 0;
+	for (int i = 0; i <= j; i++) {
+		for (int l = 0; l <= k; l++) {
+			if (words1[i].length() <= words2[l].length()) {
+				for (int p = 0; p < words1[i].length(); p++) {
+					if (words1[i][p] == words2[l][p])
+						count++;
+				}
+			}
+			else {
+				for (int p = 0; p < words2[l].length(); p++) {
+					if (words1[i][p] == words2[l][p])
+						count++;
+				}
+			}
+			if ((count / (words1[i].length()*1.0 + words2[l].length()*1.0 - count)) > 0.45)
+				equal_words++;
+			count = 0;
+		}
+	}
+
+	double koef = equal_words / ((k + 1) * 1.0 + (j + 1) * 1.0 - equal_words);
+	return koef;
+
+}
+
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	string line[10000];
+	int count = 0;
+	for (int i = 0; getline(cin, line[i]); i++) {
+		line[i] = normalize_string(line[i]);
+		count++;
+	}
+	for (int i = 0; i < count; i++) {
+		for (int j = i + 1; j < count; j++) {
+			double koef = compare_strings(line[i], line[j]);
+			if (koef > 0.25)
+				cout << i + 1 << " " << j + 1 << endl;
+		}
+	}
+
+
+
+	return 0;
+}

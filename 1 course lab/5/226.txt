@@ -1,0 +1,23 @@
+#include <string>
+#include <iostream>
+#include <regex>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	string str;
+	smatch result;
+	regex reg("[A-Za-z0-9_]+[@]{1}[a-z0-9A-Z\\-.]{1,61}\\.[A-Za-z]{2,4}");
+
+	while (getline(cin, str))
+	{
+		while (regex_search(str, result, reg))
+		{
+			cout << result.str(0) << "\n";
+			str = result.suffix().str();
+		}
+	}
+	return 0;
+}

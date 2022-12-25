@@ -1,0 +1,70 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	string sOriginalStr;
+	string sTmpStr;
+	string sGoodStr;
+	string sNewStr;
+	int x = 0;
+
+	for (; getline(cin, sOriginalStr);)
+	{
+		for (int i = 0; i < sOriginalStr.length(); ++i)
+		{
+
+			int x = sOriginalStr[i];
+
+			if (x >= 65 && x <= 90)
+			{
+				x = x + 32;
+			}
+
+			if ((x >= 48 && x <= 57) || (x >= 97 && x <= 122) || x == 32)
+			{
+
+				sGoodStr.append(1, char(x));//add 1 character in exchange
+			}
+		}
+	}
+	int iCounter = 0;
+	for (int i = 0; i < sGoodStr.length(); ++i)
+	{
+		x = sGoodStr[i];
+		if (x != 32)
+		{
+			iCounter++;
+			sTmpStr += x;
+		}
+
+		else  // (x == 32see a space
+		{
+			if (iCounter != 0) //go before time
+			{
+				if (iCounter > 3)
+				{
+					sNewStr += sTmpStr;
+					sNewStr += x;
+					sTmpStr.clear();
+					iCounter = 0;
+				}
+				sTmpStr.clear();
+				iCounter = 0;
+			}
+		}
+		if (i + 1 == sGoodStr.length())
+		{
+			if (iCounter > 3)
+			{
+				sNewStr += sTmpStr;
+			}
+		}
+	}
+	cout << sNewStr;
+	return 0;
+}

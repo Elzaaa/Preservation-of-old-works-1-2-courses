@@ -1,0 +1,30 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	string str; // создаем строку 
+	for (; getline(cin, str); )
+	{
+		for (int i = 0; i < str.length() ; ++i)
+		{
+			int x = str[i];
+			
+			if (x >= 65 && x <= 90)
+			{
+				x = x + 32;
+			}
+		    if ((x >= 48 && x <= 57) || (x >= 97 && x <= 122) || x == 32)
+			{
+				str[i] = x;
+				cout << str[i];
+			}
+		}
+	}
+	
+	return 0;
+}

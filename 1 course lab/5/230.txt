@@ -1,0 +1,25 @@
+#include <string>
+#include <iostream>
+#include <regex>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iCounter = 0;
+	string str;
+	smatch result;			
+	regex reg("(.)*(Merlin speaks)(.)*(Avada-ke-davra)");
+	while (getline(cin, str))
+	{
+		iCounter++;
+		while (regex_search(str, result, reg))
+		{
+			int iLength = result[0].length() - 13;//because Avada-ke-davra=14 and we need first A
+			cout << iCounter << " " << iLength << "\n";
+			str = result.suffix().str();
+		}
+	}
+	return 0;
+}

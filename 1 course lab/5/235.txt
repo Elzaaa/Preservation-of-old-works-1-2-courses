@@ -1,0 +1,22 @@
+#include <string>
+#include <iostream>
+#include <regex>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	string sStr;
+	smatch result;
+	regex reg("[a-z][a-z0-9]*(\\s*\\[[a-z0-9]+(\\s*[-+*\\/]\\s*[a-z0-9]*)*\\s*\\])?\\s*=\\s*([a-z0-9]+(\\s*\\[[a-z0-9]+(\\s*[-+*\/]\\s*[a-z0-9]*)*\\s*\\])?(\\s*\\([a-z0-9]*\\s*(\\,\\s*[a-z0-9]+([-+*\\/][a-z0-9])*)*\\s*([-+*\/]\\s*[a-z0-9]+)*\\))?)(\\s*[-+*\/]*\\s*([a-z0-9]+(\\s*\\[[a-z0-9]+(\\s*[-+*\/]\\s*[a-z0-9]*)*\\s*\\])?(\\s*\\([a-z0-9]*\\s*(\\,\\s*[a-z0-9]+([-+*\\/][a-z0-9])*)*\\s*([-+*\\/]\\s*[a-z0-9]+)*\\))?)*)*\\s*;");
+	while (getline(cin, sStr))
+	{
+		while (regex_search(sStr, result, reg))
+		{
+			cout << result[0] << "\n";
+			sStr = result.suffix().str();
+		}
+	}
+	return 0;
+}

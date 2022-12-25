@@ -1,0 +1,94 @@
+#include <string>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+string LineNormalization(string sOriginalStr)//String normalization (without *&^@, word < 3)
+{
+	string sTmpStr;
+	string sGoodStr;
+	string sNewStr;
+	int x = 0;
+	for (int i = 0; i < sOriginalStr.length(); ++i)
+	{
+		int x = sOriginalStr[i];
+		if (x >= 65 && x <= 90)
+		{
+			x = x + 32;
+		}
+		if ((x >= 48 && x <= 57) || (x >= 97 && x <= 122) || x == 32)
+		{
+			sGoodStr.append(1, char(x));//add 1 character in exchange
+		}
+	}
+	int iCounter = 0;
+	for (int i = 0; i < sGoodStr.length(); ++i)
+	{
+		x = sGoodStr[i];
+		if (x != 32)
+		{
+			iCounter++;
+			sTmpStr += x;
+		}
+
+		else  // (x == 32)see a space
+		{
+			if (iCounter != 0) //go before time
+			{
+				if (iCounter > 3)
+				{
+					sNewStr += sTmpStr;
+					sNewStr += x;
+					sTmpStr.clear();
+					iCounter = 0;
+				}
+				sTmpStr.clear();
+				iCounter = 0;
+			}
+		}
+		if (i + 1 == sGoodStr.length())
+		{
+			if (iCounter > 3)
+			{
+				sNewStr += sTmpStr;
+			}
+		}
+	}
+	return sNewStr;
+}
+int min(int x, int y, int z)//minimum function of three numbers 
+{
+	return min(min(x, y), z);
+}
+int editDist(string str1, string str2, int m, int n)
+{
+	//if sStr1 is empty we inserted all the characters in sStr2
+	if (m == 0)
+		return n;
+	//and vice versa
+	if (n == 0)
+		return m;
+
+	//if the last characters match they do not need to be changed
+	if (str1[m - 1] == str2[n - 1])
+		return editDist(str1, str2, m - 1, n - 1);
+
+	return 1 + min(editDist(str1, str2, m, n - 1), // Insert 
+		editDist(str1, str2, m - 1, n), // Remove 
+		editDist(str1, str2, m - 1, n - 1) // Replace 
+	);
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	// your code goes here 
+	string sStr1, sStr2, sNormalStr1, sNormalStr2;
+	getline(cin, sStr1);
+	sNormalStr1 = LineNormalization(sStr1);
+	getline(cin, sStr2);
+	sNormalStr2 = LineNormalization(sStr2);
+
+	cout << editDist(sNormalStr1, sNormalStr2, sNormalStr1.length(), sNormalStr2.length());
+
+	return 0;
+}
