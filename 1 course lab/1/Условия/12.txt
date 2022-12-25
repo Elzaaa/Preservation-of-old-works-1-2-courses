@@ -1,0 +1,38 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int Number;
+	int b, c, d, e, f;
+	cin >> Number;
+	if (Number > 15)
+	{
+		b = (Number / 16) % 2;
+		cout << b;
+	}
+	if (Number > 7)
+	{
+		c = (Number / 8) % 2;
+		cout << c;
+	}
+	if (Number > 3)
+	{
+		d = (Number / 4) % 2;
+		cout << d;
+	}
+	if (Number > 1)
+	{
+		e = (Number / 2) % 2;
+		cout << e;
+	}
+	if (Number > -1)
+	{
+		f = (Number / 1) % 2;
+		cout << f;
+	}
+	return 0;
+}

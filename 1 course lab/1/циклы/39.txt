@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0;
+
+	cin >> N;
+
+	float x1 = log2(N);
+	float x2 = (int)x1;
+
+
+	if (x1 == x2) cout << "Yes";
+	else cout << "No";
+
+
+
+	return 0;
+}

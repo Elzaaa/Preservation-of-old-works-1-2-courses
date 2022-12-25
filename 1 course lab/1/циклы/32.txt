@@ -1,0 +1,21 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long long a, b, Nok;
+	cin >> a >> b;
+	Nok = a * b;
+	while (a != b)
+	{
+		if (a > b)
+			a = a - b;
+		else
+			b = b - a;
+	}
+	Nok = Nok / a;
+	cout << Nok;
+	return 0;
+}

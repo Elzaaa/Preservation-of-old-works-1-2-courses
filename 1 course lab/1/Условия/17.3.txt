@@ -1,0 +1,22 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int x0, y0, r, x1, y1, vfw_x, vfw_y;
+	cin >> x0 >> y0 >> r >> x1 >> y1;//coordinates of the center of the circle, radius, coordinates of the point 
+
+	vfw_x = (x1 - x0)*(x1 - x0);//variable for writing x
+	vfw_y = (y1 - y0)*(y1 - y0);//variable for writing yuse the equation of the circle equation
+	if ((vfw_x) + (vfw_y) == (r*r)) //use the equation of the circle  x^2+y^2=r^2
+	  {
+		  cout << "1";
+	  }
+	  else
+	  {
+		  cout << "0";
+	  }
+	return 0;
+}

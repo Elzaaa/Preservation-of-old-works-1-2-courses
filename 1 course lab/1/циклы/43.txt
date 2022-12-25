@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+int main() {
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int iNumber_1, iNumber_2, iChelaya_chast, iOstatok;
+
+	cin >> iNumber_1 >> iNumber_2;
+
+	iOstatok = iNumber_1;
+
+	for (iChelaya_chast = 0; (iOstatok>0) && (iOstatok >= iNumber_2); iChelaya_chast++)//iChelaya_chast records how many times to share
+	{
+		iOstatok -= iNumber_2;
+	}
+
+	cout << iChelaya_chast << " " << iOstatok;
+	return 0;
+}

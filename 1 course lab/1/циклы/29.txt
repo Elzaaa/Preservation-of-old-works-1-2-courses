@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumber, idel, ishetchik;
+	cin >> iNumber;
+	ishetchik = 0;
+	for (idel = 1; iNumber >= idel; idel++)
+		if (iNumber % idel == 0)
+		{
+			ishetchik = ishetchik + 1;//checking the number for divisibility from 1 to himself
+		}
+	if (ishetchik > 2)//if the number is divisible more than two times it is not prime
+	{
+		cout << "No";
+	}
+	else
+	{
+		cout << "Yes";
+	}
+	return 0;
+}

@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+double factorial(int N)
+{
+	double y = 1;
+	for (int i = 1; i <= N; i++)
+	{
+		y *= i;
+	}
+
+	return y;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long n, k;
+
+	cin >> n >> k;
+	
+	double fN = factorial(n);
+	double fK = factorial(k);
+	double fNK = factorial(n-k);
+
+	double res = fN / fK / fNK;
+
+	cout << res;
+
+	return 0;
+}

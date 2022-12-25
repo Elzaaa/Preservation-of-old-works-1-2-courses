@@ -1,0 +1,59 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0, r1 = 2, r2 = 7;
+	int M[1000];
+	int iCnt = 0;
+	char c = 0;
+
+
+	while (1)
+	{
+		c = cin.get();
+
+		if (c == ' ' || iCnt >= 1000) break;
+
+		/*if (c == '0') M[iCnt] = 0;
+		else if (c == '1') M[iCnt] = 1;
+		else if (c == '2') M[iCnt] = 2;
+		*/
+
+		M[iCnt] = c - '0';
+
+		++iCnt;
+	}
+
+	cin >> r1 >> r2;
+
+	int Dec = 0;
+	for (int x = 0; x < iCnt; ++x)
+	{
+		Dec += M[iCnt - 1 - x] * pow(r1, x);
+	}
+
+	//cout << Dec;
+	
+	iCnt = 0;
+	while(iCnt < 100)
+	{
+		M[iCnt] = Dec % r2;
+		Dec = Dec / r2;
+
+		++iCnt;
+
+		if (Dec == 0) break;
+	}
+
+
+	for (int x = iCnt-1; x >= 0; --x) cout << M[x];
+
+
+	return 0;
+}

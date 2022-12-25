@@ -1,0 +1,13 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int Number, i;
+	cin >> Number;
+	//while the number is less than the variable "Number" add 1
+	for (int i = 0; i < Number; i++)
+		cout << (i + 1) << " ";
+	return 0;
+}

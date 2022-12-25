@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cmath>  
+using namespace std;
+
+bool IsNumberNatural(int a)
+{
+	bool res = true;
+	int polA = sqrt(a);//     a/2
+	
+	for (int cnt = 2; polA >= cnt; cnt++)
+	{
+		if (a % cnt == 0)
+		{
+			res = false;
+			break;
+		}
+	}
+
+	return res;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumber;
+	cin >> iNumber;
+
+	int i = 1, n = 0;
+
+	while (1)
+	{
+		++i;
+		if (IsNumberNatural(i) == true)//if the number is divisible more than two times it is not prime
+		{
+			cout << i << " ";
+			++n;
+
+			if (n >= iNumber) break;
+		}
+	}
+
+	return 0;
+}

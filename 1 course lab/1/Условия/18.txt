@@ -1,0 +1,26 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int Number, a, b, c, d;
+	cin >> Number;
+	//Divide the number by digits
+	a = Number / 1000;
+	b = (Number / 100) % 10;
+	c = (Number / 10) % 10;
+	d = Number % 10;
+	//Compare the (first/last) and (second/third) digits
+	if ((a == d) && (b == c))
+	{
+		cout << "1";
+	}
+	else
+	{
+		cout << "0";
+	}
+
+	return 0;
+}

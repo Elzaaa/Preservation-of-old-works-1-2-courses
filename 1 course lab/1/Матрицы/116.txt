@@ -1,0 +1,86 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iY, iX;
+	int y = 0, x = 0;
+	int iOneX = 0, iOneY = 0;
+	bool bYes = true;
+	cin >> iY >> iX;
+	int iCntY = iY / 2, iCntX = iX / 2;
+	//create dinamic matrix
+	int**a = new int *[iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+
+	for (int x = 0; x < iCntX && bYes == true; ++x)//vertical
+	{
+	
+		for (int y = 0; y < iY && bYes == true; ++y)
+		{
+			int y1 = a[y][x];
+			int y2 = a[y][iX-1-x];
+
+			if (y1 != y2)
+			{
+				bYes = false;
+			}
+		}
+	}
+	if (bYes == true)
+	{
+		cout << "Yes";
+		for (int y = 0; y < iY; ++y)
+		{
+			delete[]a[y];
+		}
+		delete[]a;
+		return 0;
+	}
+	bYes = true;
+	for (int y = 0; y < iCntY && bYes == true; ++y)//horizontal
+	{
+		for (int x = 0; x < iX && bYes == true; ++x)
+		{
+
+			int x1 = a[y][x];
+			int x2 = a[iY-1-y][x];
+
+			if (x1 != x2)
+			{
+				bYes = false;
+			}
+		}
+	}
+
+	if (bYes == true)
+	{
+		cout << "Yes";
+	}
+	else
+	{
+		cout << "No";
+	}
+
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}

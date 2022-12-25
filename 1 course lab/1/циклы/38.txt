@@ -1,0 +1,54 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0;
+	char * M = new char[1000000];
+	int iCnt = 0;
+
+
+
+	cin >> N;
+
+
+	iCnt = 0;
+	while (iCnt < 1000000)
+	{
+		M[iCnt] = N % 10;
+		N = N / 10;
+
+		++iCnt;
+
+		if (N == 0) break;
+	}
+
+
+
+
+	int Dec1 = 0;
+	for (int x = 0; x < iCnt; ++x)
+	{
+		Dec1 += M[iCnt - 1 - x] * pow(10, x);
+	}
+
+	int Dec2 = 0;
+	for (int x = 0; x < iCnt; ++x)
+	{
+		Dec2 += M[x] * pow(10, x);
+	}
+
+
+	if (Dec1 == Dec2) cout << "Yes";
+	else cout << "No";
+
+	delete[] M;
+
+
+	return 0;
+}

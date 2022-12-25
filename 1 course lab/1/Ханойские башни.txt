@@ -1,0 +1,26 @@
+
+#include <iostream>
+#include <math.h>
+#include <string>
+#include <stdlib.h>
+using namespace std;
+
+void vHanoi(int n, int a, int b, int c)
+{
+	if (n == 1)
+		cout << a << "->" << c << endl;
+	else
+	{
+		vHanoi(n - 1, a, c, b);
+		cout << a << "->" << c << endl;
+		vHanoi(n - 1, b, a, c);
+	}
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	vHanoi(6, 1, 2, 3);  // 6 дисков с 1 на 3
+	return 0;
+}

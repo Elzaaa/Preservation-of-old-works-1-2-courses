@@ -1,0 +1,29 @@
+#include <iostream>
+#include<ctime>
+using namespace std;
+
+int rakirovka(int a, int b)
+{
+	int z = a;
+	a = b;
+	b = z;
+	return a;
+}
+
+int rakirovka1(int a, int b)
+{
+	int z = a;
+	a = b;
+	b = z;
+	return b;
+}
+
+int  main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int a, b;
+	cin >> a >> b;
+	cout << rakirovka(a,b)<< " "<< rakirovka1(a, b);
+	return 0;
+}

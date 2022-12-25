@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+int main()
+ {
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0;
+
+	cin >> N;
+
+	int * mass = new int[N];
+
+	//read massive
+	for (int i = 0; i < N; ++i)
+	{
+		cin >> mass[i];
+	}
+
+	for (int i = 0; i < N-1; ++i)
+	{
+		int val = mass[i];
+
+		if (val > 999) continue;
+
+		for (int y = i + 1; y < N; ++y)
+		{
+			if (mass[y] == val) mass[y] = 1000;
+		}
+	}
+
+	for (int i = 0; i < N; ++i)
+	{
+		if(mass[i] < 1000) cout << mass[i] << " ";
+	}
+
+	delete[] mass;
+
+	return 0;
+}

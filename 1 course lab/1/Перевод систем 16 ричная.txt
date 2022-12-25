@@ -1,0 +1,139 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+
+using namespace std;
+
+int mypow(int a, int x);
+int myA2I(string str, int base);
+int GetMassiveSizeForBase(int D, int base);
+string myI2A(int D, int base);
+
+int myA2I(string str, int base)
+{
+	int x = str.length() - 1;
+
+	int F = 0;
+
+	for (int i = 0; i<str.length(); ++i)
+	{
+		int c = str[i];
+		int dec = 0;
+
+		if (c == '0') dec = 0x0000;
+		else if (c == '1') dec = 0x0001;
+		else if (c == '2') dec = 0x0002;
+		else if (c == '3') dec = 0x0003;
+		else if (c == '4') dec = 0x0004;
+		else if (c == '5') dec = 0x0005;
+		else if (c == '6') dec = 0x0006;
+		else if (c == '7') dec = 0x0007;
+		else if (c == '8') dec = 0x0008;
+		else if (c == '9') dec = 0x0009;
+		else if (c == 'A') dec = 0x000A;
+		else if (c == 'a') dec = 0x000A;
+		else if (c == 'B') dec = 0x000b;
+		else if (c == 'b') dec = 0x000b;
+		else if (c == 'C') dec = 0x000C;
+		else if (c == 'c') dec = 0x000C;
+		else if (c == 'D') dec = 0x000D;
+		else if (c == 'd') dec = 0x000D;
+		else if (c == 'E') dec = 0x000E;
+		else if (c == 'e') dec = 0x000E;
+		else if (c == 'F') dec = 0x000F;
+		else if (c == 'f') dec = 0x000F;
+		else break;
+
+
+		F = F + dec * mypow(base, x);
+
+		--x;
+	}
+
+	return F;
+}
+
+int mypow(int a, int x)
+{
+	int res = 1;
+	for (int i = 1; i <= x; ++i)
+	{
+		res = res * a;
+	}
+
+	return res;
+}
+
+int GetMassiveSizeForBase(int D, int base)
+{
+	int iCnt = 0;
+	while (true)
+	{
+		++iCnt;
+		int o = D % base;
+		D = D / base;
+
+		if (D == 0) break;
+	}
+
+	return iCnt;
+}
+
+string myI2A(int D, int base)
+{
+	int N = GetMassiveSizeForBase(D, base);
+
+	char * str = new char [N+1];
+	str[N] = 0;
+
+	for (int i = N-1; i >= 0; --i)
+	{
+		int o = D % base;
+
+		if(o == 0) str[i] = '0';
+		else if (o == 0x1) str[i] = '1';
+		else if (o == 0x2) str[i] = '2';
+		else if (o == 0x3) str[i] = '3';
+		else if (o == 0x4) str[i] = '4';
+		else if (o == 0x5) str[i] = '5';
+		else if (o == 0x6) str[i] = '6';
+		else if (o == 0x7) str[i] = '7';
+		else if (o == 0x8) str[i] = '8';
+		else if (o == 0x9) str[i] = '9';
+		else if (o == 0xA) str[i] = 'A';
+		else if (o == 0xB) str[i] = 'B';
+		else if (o == 0xC) str[i] = 'C';
+		else if (o == 0xD) str[i] = 'D';
+		else if (o == 0xE) str[i] = 'E';
+		else if (o == 0xf) str[i] = 'F';
+
+		D = D / base;
+	}
+
+	string s = str;
+
+	delete[] str;
+
+	return s;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	string str1, str2, str3;
+
+	cin >> str1 >> str2 >> str3;
+	int baseIn = myA2I(str2, 10);
+	int baseOut = myA2I(str3, 10);
+
+
+	int N = myA2I(str1, baseIn);
+
+	string str4 = myI2A(N, baseOut);
+
+	cout << str4;
+
+	return 0;
+}

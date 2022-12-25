@@ -1,0 +1,27 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int ticket_number, a, b, c, d, e, f;
+	cin >> ticket_number;
+	//Divide the number by digits
+	a = (ticket_number / 100000) % 10;
+	b = (ticket_number / 10000) % 10;
+	c = (ticket_number / 1000) % 10;
+	d = (ticket_number / 100) % 10;
+	e = (ticket_number / 10) % 10;
+	f = ticket_number % 10;
+	if ((a + b + c) == (d + e + f))
+	{
+		cout << "1";
+    }
+	else
+	{
+		cout << "0";
+	}
+	return 0;
+}

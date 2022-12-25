@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cmath>  
+
+using namespace std;
+
+bool IsNumberNatural(int a)//create a function
+{
+	if (a < 2) return false;
+	bool res = true;
+	int polA = sqrt(a);//check division to square root
+	
+	for (int cnt = 2; polA >= cnt; cnt++)
+	{
+		if (a % cnt == 0)
+		{
+			res = false;
+			break;
+		}
+	}
+
+	return res;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumber;
+	cin >> iNumber;
+	//put the function in the  body
+	for (int i = 1; i <= iNumber; ++i)
+		if (IsNumberNatural(i) == true)//if the number is divisible more than two times it is not prime
+			cout << i<< " ";
+
+	return 0;
+}

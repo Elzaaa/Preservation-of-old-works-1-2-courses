@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int Number, a, b, c;
+	cin >> Number;
+	//Divide the number by digits
+	a = Number / 100;
+	b = (Number / 10) % 10;
+	c = Number % 10;
+	//discharge difference check
+	if ((a != b) && (a != c) && (b != c))
+	{
+		cout << "1";
+	}
+	else
+	{
+		cout << "0";
+	}
+	return 0;
+}

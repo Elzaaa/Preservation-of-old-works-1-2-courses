@@ -1,0 +1,27 @@
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+void LineFeed(string sString)
+{
+	int iNumber = NULL;
+	for (int i = 0; i < sString.length(); i++)
+	{
+		iNumber = sString[i] - 0x30;
+		cout << iNumber;
+	}
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	string sString;
+	cin >> sString;
+	LineFeed(sString);
+
+	return 0;
+}

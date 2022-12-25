@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0;
+	int iCnt = 0;
+
+	cin >> N;
+
+	while (true)
+	{
+		N = N / 10;
+
+		++iCnt;
+
+		if (N == 0) break;
+	}
+
+
+	cout << iCnt;
+
+
+	return 0;
+}

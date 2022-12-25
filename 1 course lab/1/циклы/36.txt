@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0;
+	int M[10];
+	int iCnt = 0;
+
+	cin >> N;
+
+	while(iCnt < 10)
+	{
+		M[iCnt] = N % 10;
+		N = N / 10;
+
+		++iCnt;
+
+		if (N == 0) break;
+	}
+
+
+	for (int x = iCnt-1; x >= 0; --x) cout << M[x] << " ";
+	cout << endl;
+	for (int x = 0; x < iCnt; ++x) cout << M[x] << " ";
+
+
+	return 0;
+}

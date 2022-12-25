@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long long llNumber, i, y;
+	cin >> llNumber;
+	y = 1;
+    for (i = 1; i <= llNumber; i++)
+	{
+		y *= i;
+	}
+	cout << y;
+	return 0;
+}

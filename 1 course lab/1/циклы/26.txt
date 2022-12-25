@@ -1,0 +1,13 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int Number, del;
+	cin >> Number;
+
+	del = Number / i;
+	cout << del;
+	return 0;
+}

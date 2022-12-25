@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iHour, iMinutes, iDegrees;
+	cin >> iHour >> iMinutes;
+	iDegrees = abs(iHour * 30 - iMinutes * 6);// in 1 hour 360/12=30 and in 1 minets 360/60=6 
+	//and abs  because If the hours are less than minutes, there will be a negative(-) angle 
+	if (iDegrees > 180) 
+	{
+		iDegrees = 360 - iDegrees;//full angle does not fit(360 degrees)
+		cout << iDegrees;
+	}
+	else
+	{
+		cout << iDegrees;
+	}
+	return 0;
+}

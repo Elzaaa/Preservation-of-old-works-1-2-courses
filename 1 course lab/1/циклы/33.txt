@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	long long a, b, lAnswer;
+	cin >> a >> b;
+	//Euclidean algorithm through residuals
+	while ((a != 0) && (b != 0))
+	{
+		if (a > b)
+		{
+			a = a % b;
+		}
+		else
+		{
+			b = b % a;
+		}
+	}
+	lAnswer = a + b;
+	cout << lAnswer;
+	return 0;
+}

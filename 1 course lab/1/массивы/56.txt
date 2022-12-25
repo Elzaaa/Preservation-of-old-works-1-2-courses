@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+int main()
+ {
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int N = 0;
+
+	cin >> N;
+
+	int * mass = new int[N+1];
+
+	//read massive
+	for (int i = 0; i < N; ++i)
+	{
+		cin >> mass[i];
+	}
+
+	// read position and value
+
+	int indx, val;
+
+	cin >> indx >> val;
+	//shift elements
+	for (int i = N; i >= indx; --i)
+	{
+		mass[i] = mass[i-1];
+	}
+
+	//add new element
+	mass[indx - 1] = val;
+
+	//print to output
+	for (int i = 0; i < N+1; ++i)
+	{
+		cout << mass[i]<<" ";
+	}
+
+
+	delete[] mass;
+
+	return 0;
+}

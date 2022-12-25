@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int a, s;
+	cin >> a;
+	s = a * a;
+	cout << s ;
+	return 0;
+}

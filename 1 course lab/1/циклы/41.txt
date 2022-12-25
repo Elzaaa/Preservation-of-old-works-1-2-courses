@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumber,iCounter, a, b, c;
+	 b = 0;
+	cin >> iNumber;
+	c = 1;
+	for (iCounter = 1; iCounter < iNumber; iCounter++)
+	{
+		a = c + b;
+		b = c;
+		c = a;
+	}
+	cout << b;
+	return 0;
+}

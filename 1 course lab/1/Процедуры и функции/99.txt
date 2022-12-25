@@ -1,0 +1,28 @@
+#include <iostream> 
+using namespace std;
+
+void RoundingUp(double n)
+{
+	int iAns = n + 1;
+	cout << iAns;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	double n;
+	cin >> n;
+	int k = n;
+	if (n != k)
+	{
+		RoundingUp(n);
+
+	}
+	else
+	{
+		cout << n;
+	}
+
+	return 0;
+}

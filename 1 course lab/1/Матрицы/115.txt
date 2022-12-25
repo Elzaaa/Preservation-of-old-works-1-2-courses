@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iOne, iSec;
+	cin >> iOne>> iSec;
+	
+
+	int a[100][100];
+	for (int i = 0; i < iOne; i++)
+	{
+		for (int j = 0; j < iSec; j++)
+		{
+			cin >> a[i][j];
+		}
+	}
+	for (int i = 0; i < iOne; i++)
+	{
+		for (int j = 0; j < iSec; j++)
+		{
+			cout << a[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+	return 0;
+}
