@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+
+int iOst;
+int Dlina[100];
+int Ones[100];
+
+void Depth_First_Search_st(int** a,int n, bool* Visited, int *Nodes, int Node, int nom) 
+{
+	Visited[Node] = true;
+	iOst--;
+	Dlina[nom]++;
+	Nodes[Node] = 0;
+	for (int i = 0; i < n; i++) 
+	{
+		if (a[Node][i] && !Visited[i])
+		{
+			Depth_First_Search_st(a, n, Visited, Nodes, i, nom);
+		}
+	}
+}
+
+
+void Depth_First_Search_st_1(int ** a, int n, bool* Visited, int* Nodes, int Node) 
+{
+	Visited[Node] = true;
+	iOst--;
+	Nodes[Node] = 0;
+	cout << Node + 1 << " ";
+	for (int i = 0; i < n; i++)
+	{
+		if (a[Node][i] && !Visited[i])
+		{
+			Depth_First_Search_st_1(a, n, Visited, Nodes, i);
+		}
+	}
+		
+}
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumberOfVertices;
+	int iY, iX;
+	int y = 0, x = 0;
+	cin >> iNumberOfVertices;
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	//create dinamic matrix
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+	
+	iOst = iNumberOfVertices;
+	
+    int* Nodes = new int[iNumberOfVertices];
+	bool* Visited = new bool[iNumberOfVertices]; // Выделение памяти для массива
+	for (int i = 0; i < iNumberOfVertices; i++)
+	{
+		Visited[i] = false;
+		Nodes[i] = 1;
+	}
+	int c;
+	int k = 0;
+	while (iOst > 0)
+	{
+		c = 0;
+		while (Nodes[c] != 1)
+		{
+			c++;
+		}
+		Ones[k] = c;
+		Depth_First_Search_st(a,iNumberOfVertices, Visited,Nodes, c, k);
+		k++;
+	}
+	cout << k << endl;
+
+	for (int i = 0; i < iNumberOfVertices; i++)
+	{
+		Visited[i] = false;
+		Nodes[i] = 1;
+	}
+
+	for (int i = 0; i < k; i++)
+	{
+		cout << Dlina[i] << " ";
+		Depth_First_Search_st_1(a, iNumberOfVertices, Visited,  Nodes , Ones[i]);
+		cout << endl;
+	}
+
+
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	delete[]Visited;
+	delete[]Nodes;
+	return 0;
+}

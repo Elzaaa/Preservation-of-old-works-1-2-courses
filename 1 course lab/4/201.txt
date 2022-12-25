@@ -1,0 +1,91 @@
+#include <iostream>
+using namespace std;
+const int INFI = 1000000000;
+void Dikstras_aloritm(int iNumberOfVertices, int** a, bool* Visited, int* Dist, int iStart, int iEnd)
+{
+	int iMinIndex, iMin;
+	for (int i = 0; i < iNumberOfVertices; ++i)
+	{
+		Dist[i] = INFI;
+		Visited[i] = false;
+	}
+	Dist[iStart] = 0;
+
+	do
+	{
+		iMinIndex = INFI;
+		iMin = INFI;
+		for (int i = 0; i < iNumberOfVertices; ++i)
+		{
+			if (!(Visited[i]) && (Dist[i] < iMin))
+			{
+				iMin = Dist[i];
+				iMinIndex = i;
+			}
+		}
+
+		int to;
+		if (iMinIndex != INFI)
+		{
+			for (int i = 0; i < iNumberOfVertices; ++i)
+			{
+				if (a[iMinIndex][i] >= 0)
+				{
+					to = iMin + a[iMinIndex][i];
+					if (to < Dist[i])
+						Dist[i] = to;
+				}
+			}
+			Visited[iMinIndex] = true;
+		}
+	} while (iMinIndex < INFI);
+
+	if (Dist[iEnd] == INFI)
+	{
+		cout << -1;
+	}
+	else
+	{
+		cout << Dist[iEnd];
+	}
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int iNumberOfVertices, iStart, iEnd, iY, iX;
+
+	cin >> iNumberOfVertices >> iStart >> iEnd;
+
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+
+	iStart--;
+	iEnd--;
+
+	bool* Visited = new bool[iNumberOfVertices];
+	int* Dist = new int[iNumberOfVertices];
+
+	Dikstras_aloritm(iNumberOfVertices, a, Visited, Dist, iStart, iEnd);
+
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}

@@ -1,0 +1,95 @@
+#include <iostream>
+using namespace std;
+bool Visited[1000][1000];
+int Graph[1000][1000];
+void Depth_First_Search(int n, int i, int j)
+{
+	Visited[i][j] = true;
+	if (Visited[n - 1][n - 1])
+	{
+		return;
+	}
+	int iWay = Graph[i][j];
+	if (iWay % 2 != 0)//we go up if we do not cross the border
+	{ 
+		//because if even then there is 1
+		iWay--;
+		if (!Visited[i - 1][j] && i != 0)
+		{
+			Depth_First_Search( n, i - 1, j);
+		}
+	}
+	if (iWay >= 8)//we can go left and somewhere else
+	{
+		iWay -= 8;
+		if (!Visited[i][j - 1] && j != 0)
+		{
+			Depth_First_Search( n, i, j - 1);
+		}
+	}
+	if (iWay >= 4)//we can go right and somewhere else
+	{
+		iWay -= 4;
+		if (!Visited[i][j + 1] && j != n - 1)
+		{
+			Depth_First_Search(n, i, j + 1);
+		}
+	}
+	if (iWay == 2 )//can go down
+	{
+		iWay -= 2;
+		if (!Visited[i + 1][j] && i != n - 1)
+		{
+			Depth_First_Search( n, i + 1, j);
+		}
+	}
+	
+}
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumiVer, iY, iX;
+	cin >> iNumiVer;
+
+	int y = 0, x = 0;
+
+	iY = iNumiVer;
+	iX = iNumiVer;
+
+	/*reate dinamic matrix
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//create 2 dinamic matrix
+	bool** Visited = new bool* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		Visited[y] = new bool[iX];
+	}*/
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> Graph[y][x];
+			Visited[y][x] = false;
+		}
+	}
+	int iStartX = 0, iStartY = 0;
+	Depth_First_Search(iNumiVer, iStartY, iStartX);
+
+	if (Visited[iNumiVer - 1][iNumiVer - 1])
+	{
+		cout << "Yes";
+	}
+	else
+	{
+		cout << "No";
+	}
+	return 0;
+}

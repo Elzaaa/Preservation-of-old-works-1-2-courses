@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iVertices, iRibs, iRib1, iRib2;
+	int iY, iX;
+	int y = 0, x = 0;
+	cin >> iVertices >> iRibs;
+	iY = iVertices;
+	iX = iVertices;
+	//create dinamic matrix
+	int**a = new int *[iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+
+	for (int iCnt = 0; iCnt < iRibs; ++iCnt)
+	{
+		cin >> iRib1 >> iRib2;
+
+		for (int y = 0; y < iY; ++y)
+		{
+			for (int x = 0; x < iX; ++x)
+			{
+				if (((y != iRib1 - 1) || (x != iRib2 - 1))&& (a[y][x]!=1))
+				{
+					a[y][x] = 0;
+			
+				}
+				else 
+				{
+					a[y][x] = 1;
+					a[x][y] = 1;
+				}
+			}
+
+		}
+	}
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cout << a[y][x]<<" ";
+		}
+		cout << endl;
+	}
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}

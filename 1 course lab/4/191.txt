@@ -1,0 +1,113 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int Certainty(int**a, int n)
+{
+	int iX = n, iY = n;
+	int y = 0, x = 0;
+
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			if (a[y][x] != a[x][y])
+			{
+				return 1;
+			}
+		}
+	}
+	return -1;
+}
+int Balance(int** a, int n)
+{
+	int iX = n, iY = n;
+	int y = 0, x = 0;
+
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			if (a[y][x] > 1)
+			{
+				return 1;
+			}
+		}
+	}
+	return -1;
+}
+int Transitivity (int** a, int n)
+{
+	int iX = n, iY = n;
+	int y = 0, x = 0;
+
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			if ((a[y][x] > 0) && (y != x))
+			{
+				for (int z = 0; z < n ; ++z)
+				{
+					if ((a[x][z] > 0) && (a[y][z] == 0) && (z != y) && (z != x))
+					{
+						return -1;
+					}
+				}
+			}
+		}
+	}
+	return 1;
+}
+
+int Fullness(int** a, int n)
+{
+	int iX = n, iY = n;
+	int y = 0, x = 0;
+
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			if((y!=x )&&(a[y][x]==0))
+			{
+				return -1;
+			}
+		}
+	}
+	return 1;
+}
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumberOfVertices;
+	int iY, iX;
+	int y = 0, x = 0;
+	cin >> iNumberOfVertices;
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	//create dinamic matrix
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+	cout << Certainty(a, iNumberOfVertices) << endl << Balance(a, iNumberOfVertices) << endl << Transitivity(a, iNumberOfVertices) << endl << Fullness(a, iNumberOfVertices);
+
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}

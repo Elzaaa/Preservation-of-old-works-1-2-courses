@@ -1,0 +1,59 @@
+#include <cstdlib>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+void Floyd(int** a, int iNumberOfVertices, int iStart, int iEnd)
+{
+	for (int k = 0; k < iNumberOfVertices; k++)
+	{
+		for (int i = 0; i < iNumberOfVertices; i++)
+		{
+			for (int j = 0; j < iNumberOfVertices; j++)
+			{
+				if (i != j && a[i][k] != -1 && a[k][j] != -1)
+				{
+					if (a[i][k]+ a[k][j] <a[i][j] ||a[i][j] == -1)
+					{
+						a[i][j] = a[i][k] + a[k][j];
+					}
+
+				}
+			}
+		}
+	}
+	cout << a[iStart][iEnd];
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int iNumberOfVertices, iStart, iEnd, iY, iX;
+
+	cin >> iNumberOfVertices >> iStart >> iEnd;
+	iStart--;
+	iEnd--;
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+	Floyd(a, iNumberOfVertices, iStart, iEnd);
+	
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}

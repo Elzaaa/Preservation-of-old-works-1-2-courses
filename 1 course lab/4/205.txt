@@ -1,0 +1,105 @@
+#include <iostream>
+#include <algorithm>
+#include <queue>
+using namespace std;
+int p[100];
+
+void Floyd(int **Graph, int ** iAncestors, int n)
+{
+	int iCheck1;
+	bool bCheck2 = false;
+
+	for (int k = 0; k < n; ++k)
+	{
+		for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j < n; ++j)
+			{
+				if (Graph[i][j] > Graph[i][k] + Graph[k][j])
+				{
+					Graph[i][j] = Graph[i][k] + Graph[k][j];
+					iAncestors[i][j] = iAncestors[k][j];
+					iCheck1 = iAncestors[i][j];
+					p[j] = iAncestors[k][j];
+					if ((i == j) && (Graph[i][j] < 0))
+					{
+						bCheck2 = true;
+					}
+				}
+			}
+		}
+	}
+
+	
+	if (!bCheck2)
+	{
+		cout << "NO" << endl;
+	}
+	else
+	{
+		cout << "YES" << endl;
+		int ans = 0;
+		for (int i = 0; i < n; ++i)
+		{
+			iCheck1 = p[iCheck1];
+		}
+		vector<int> path;
+		for (int iCur = iCheck1; ; iCur = p[iCur])
+		{
+			path.push_back(iCur);
+			ans++;
+			if (iCur == iCheck1 && path.size() > 1)
+			{
+				break;
+			}
+		}
+
+		reverse(path.begin(), path.end());
+		cout << path.size() <<endl;
+		for (size_t i = 0; i < path.size() - 1; ++i)
+ {
+			cout << path[i] + 1 << ' ';
+		}
+		
+		cout << path[path.size() - 1] + 1;
+	}
+}
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumberOfVertices, iY, iX;
+	cin >> iNumberOfVertices;
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	//create dinamic matrix
+	int** a = new int* [iY];
+	int** iAncestors = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+		iAncestors[y] = new int[iX];
+
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+			iAncestors[y][x]=y;
+		}
+	}
+	Floyd(a, iAncestors, iNumberOfVertices);
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]iAncestors[y];
+	}
+	delete[]iAncestors;
+	return 0;
+}

@@ -1,0 +1,60 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+void Depth_First_Search(int n, int** Graph, bool* Visited,int Node) 
+{
+	Visited[Node] = true;
+	cout << Node + 1  << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		if (Graph[Node][i] && !Visited[i])
+		{
+			Depth_First_Search(n, Graph, Visited, i);
+		}
+	}
+}
+
+
+int main()
+{
+
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int iNumiVer, iSearchiVer;//iSearchiVer=Node
+	int iY, iX;
+	int y = 0, x = 0;
+	cin >> iNumiVer >> iSearchiVer;
+	iY = iNumiVer;
+	iX = iNumiVer;
+
+	//create dinamic matrix
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+	bool* Visited = new bool[iNumiVer]; // new massive all elements false
+	for (int i = 0; i < iNumiVer; ++i)
+	{
+		Visited[i] = false;
+	}
+	Depth_First_Search(iNumiVer, a, Visited, iSearchiVer -1);
+	//delete matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	delete Visited;
+	return 0;
+}

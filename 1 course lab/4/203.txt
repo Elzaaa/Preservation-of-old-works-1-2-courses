@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int INF = 100000000;
+struct edge 
+{
+	int iStart, iEnd, iWeight;
+};
+
+int main()
+{
+
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumberOfVertices, iPeaks;
+	vector<edge> Vec;
+	cin >> iNumberOfVertices >> iPeaks;
+
+	edge Spisok;
+	for (int i = 0; i < iPeaks; i++)
+	{
+		cin >> Spisok.iStart >> Spisok.iEnd >> Spisok.iWeight;
+		Spisok.iStart--; Spisok.iEnd--;
+		Vec.push_back(Spisok);
+	}
+
+	vector<int> Dist(iNumberOfVertices, INF);
+	Dist[0] = 0;
+	for (;;)
+	{
+		bool iCheck = false;
+		for (int j = 0; j < iPeaks; ++j)
+			if (Dist[Vec[j].iStart] < INF)
+				if (Dist[Vec[j].iEnd] > Dist[Vec[j].iStart] + Vec[j].iWeight)
+				{
+					Dist[Vec[j].iEnd] = Dist[Vec[j].iStart] + Vec[j].iWeight;
+					iCheck = true;
+				}
+		if (!iCheck)
+		{
+			break;
+		}
+	
+	}
+	for (int i = 0; i < iNumberOfVertices; i++)
+	{
+		if (Dist[i] < INF)
+		{
+			cout << Dist[i] << " ";
+		}
+
+		else
+		{
+			cout << "No" << " ";
+		}
+			
+
+	}
+		
+	return 0;
+}

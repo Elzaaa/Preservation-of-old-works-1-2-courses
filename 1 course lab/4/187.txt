@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int iNumberOfVertices;
+	int iY, iX;
+	int y = 0, x = 0;
+	cin >> iNumberOfVertices;
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	//create dinamic matrix
+	int**a = new int *[iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+
+			if(a[y][x] == 1)
+			cout << y+1 <<" "<< x+1 << endl;
+			a[x][y] = 0;
+		}
+	}
+	
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}
+
+

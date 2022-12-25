@@ -1,0 +1,113 @@
+#include <iostream>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+void Breadth_First_Search(int iNumberOfVertices, int** graph, int* pred, int* way, int iStart, int iFinish)
+{
+	int y, x;
+	queue <int> que;
+	que.push(iStart);
+	for (y = 0; y < iNumberOfVertices; ++y)// zero the path so as not to use another boolean array
+	{
+		way[y] = 0;
+	}
+
+	way[iStart] = 1;
+	pred[iStart] = -1;
+
+	while (!que.empty())// until the queue is empty 
+	{
+		y = que.front();// gets the beginning of the queue (vertex number)
+		que.pop();
+		for (x = 0; x < iNumberOfVertices; ++x)
+		{
+			if (graph[y][x]==1)
+			{
+				if (!way[x])
+				{
+					way[x] = way[y] + 1;
+					pred[x] = y;// counter of the length of the path to this peak(path to the ancestor + 1)
+					que.push(x);
+				}
+			}
+		}
+	}
+	// Information output to the screen
+	if (way[iFinish] == 0) //If there are no paths, then we didn’t get there == 0
+	{
+		cout << -1;
+	}
+	else
+	{
+		cout << way[iFinish] - 1 << endl;
+		int* iCout = new int[way[iFinish] - 1];
+		int i = 0;
+		for (int v = iFinish; v != -1; v = pred[v])
+		{
+			iCout[i] = v;
+			i++;
+		}
+	    for (i= i - 1; i >= 0;--i) 
+		{
+			cout << iCout[i] + 1 << " ";
+		
+		}
+	
+	}
+}
+
+int main()
+{
+
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+
+	int iNumberOfVertices, iY, iX, iStart, iFinish;
+	cin >> iNumberOfVertices;
+	iY = iNumberOfVertices;
+	iX = iNumberOfVertices;
+	//create dinamic matrix
+	int** a = new int* [iY];
+	for (int y = 0; y < iY; ++y)
+	{
+		a[y] = new int[iX];
+	}
+	//read the matrix
+	for (int y = 0; y < iY; ++y)
+	{
+		for (int x = 0; x < iX; ++x)
+		{
+			cin >> a[y][x];
+		}
+	}
+	cin >> iStart >> iFinish;
+
+	/*bool* Visited = new bool[iStart]; // new massive all elements false
+
+	for (int i = 0; i < iStart; ++i)
+	{
+		Visited[i] = false;
+	}*///extra array that replaced way
+	if (iStart == iFinish)
+	{
+		cout << "0";
+	}
+	else
+	{
+		int* Past = new int[iNumberOfVertices];
+		int* Distance = new int[iNumberOfVertices];
+		Breadth_First_Search(iNumberOfVertices, a, Past, Distance, iStart - 1, iFinish - 1);
+		delete[]Past;
+		delete[]Distance;
+	}
+
+
+	for (int y = 0; y < iY; ++y)
+	{
+		delete[]a[y];
+	}
+	delete[]a;
+	return 0;
+}
